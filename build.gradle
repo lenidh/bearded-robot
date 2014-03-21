@@ -1,0 +1,20 @@
+
+task build << {
+    exec {
+        workingDir "sjc"
+        commandLine "java", "-jar", "sjc.jar", "../src/", "-o",  "boot"
+    }
+}
+
+task boot << {
+    exec {
+        workingDir "build"
+        commandLine "qemu-system-i386", "-boot", "a", "-fda", "BOOT_FLP.IMG"
+    }
+}
+
+task clean << {
+    delete {
+        delete files("sjc/BOOT_FLP.IMG", "sjc/syminfo.txt")
+    }
+}
