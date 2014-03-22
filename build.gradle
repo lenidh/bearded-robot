@@ -8,8 +8,8 @@ task build << {
 
 task boot << {
     exec {
-        workingDir "build"
-        commandLine "qemu-system-i386", "-boot", "a", "-fda", "BOOT_FLP.IMG"
+        workingDir "sjc"
+        commandLine "qemu-system-i386", "-no-kvm", "-boot", "a", "-fda", "BOOT_FLP.IMG"
     }
 }
 
