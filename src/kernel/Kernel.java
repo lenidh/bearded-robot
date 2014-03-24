@@ -1,21 +1,27 @@
 package kernel;
 
+import rte.DynamicRuntime;
 import video.VideoChar;
 import video.VideoMemory;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("UnusedDeclaration")
 public class Kernel {
+
+	@SuppressWarnings({"InfiniteLoopStatement", "StatementWithEmptyBody"})
 	public static void main() {
+		DynamicRuntime.init();
+
 		clear();
 		print("Hello World!!!");
-		while (true) {}
+
+		while (true) ;
 	}
 
 	/**
 	 * Löscht alle Zeichen auf dem Bildschirm.
 	 */
 	public static void clear() {
-		for(VideoChar vidChar : VideoMemory.std.chars) {
+		for (VideoChar vidChar : VideoMemory.std.chars) {
 			vidChar.ascii = 32; // Leerzeichen
 			vidChar.color = 0;
 		}
