@@ -16,3 +16,6 @@ sjc/
 
 # Dictionaries #
 dicts/
+
+# Gradle
+user.gradle

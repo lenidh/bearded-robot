@@ -1,4 +1,13 @@
 
+// Konfiguration
+qemuExecutable = "qemu-system-i386";
+
+// Lade benutzerdefiniertes Skript, falls vorhanden.
+if(file("user.gradle").exists()) {
+    apply from: "user.gradle";
+}
+
+// Erzeugt das bootfähige Abbild.
 task build << {
     exec {
         workingDir "sjc"
@@ -6,13 +15,15 @@ task build << {
     }
 }
 
+// Bootet das Abbild in QEMU.
 task boot << {
     exec {
         workingDir "sjc"
-        commandLine "qemu-system-i386", "-no-kvm", "-boot", "a", "-fda", "BOOT_FLP.IMG"
+        commandLine qemuExecutable, "-no-kvm", "-boot", "a", "-fda", "BOOT_FLP.IMG"
     }
 }
 
+// Räumt das Projektverzeichnis auf.
 task clean << {
     delete {
         delete files("sjc/BOOT_FLP.IMG", "sjc/syminfo.txt")
