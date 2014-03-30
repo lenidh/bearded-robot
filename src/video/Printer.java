@@ -253,6 +253,15 @@ public class Printer {
 	}
 
 	/**
+	 * Gibt die Zeichenkettendarstellung eines Objekts auf dem Bildschirm aus.
+	 *
+	 * @param object Das Objekt, dessen Zeichenkettendarstellung gedruckt wird.
+	 */
+	public void print(Object object) {
+		print(object.toString());
+	}
+
+	/**
 	 * Gibt einen byte-Wert in Hexadezimaldarstellung mit "0x"-Präfix aus.
 	 *
 	 * @param value Der byte-Wert, welcher gedruckt wird.
@@ -316,7 +325,8 @@ public class Printer {
 	}
 
 	/**
-	 * Gibt eine Zeichen auf dem Bildschirm aus.
+	 * Gibt eine Zeichen auf dem Bildschirm aus und setzt den Cursor in die
+	 * nächste Zeile.
 	 *
 	 * @param c Das Zeichen, welches gedruckt wird.
 	 */
@@ -326,7 +336,8 @@ public class Printer {
 	}
 
 	/**
-	 * Gibt einen int-Wert auf dem Bildschirm aus.
+	 * Gibt einen int-Wert auf dem Bildschirm aus und setzt den Cursor in die
+	 * nächste Zeile.
 	 *
 	 * @param value Der int-Wert, welcher gedruckt wird.
 	 */
@@ -336,7 +347,8 @@ public class Printer {
 	}
 
 	/**
-	 * Gibt einen long-Wert auf dem Bildschirm aus.
+	 * Gibt einen long-Wert auf dem Bildschirm aus und setzt den Cursor in die
+	 * nächste Zeile.
 	 *
 	 * @param value Der long-Wert, welcher gedruckt wird.
 	 */
@@ -346,13 +358,24 @@ public class Printer {
 	}
 
 	/**
-	 * Gibt eine Zeichenkette auf dem Bildschirm aus.
+	 * Gibt eine Zeichenkette auf dem Bildschirm aus und setzt den Cursor in die
+	 * nächste Zeile.
 	 *
 	 * @param value Die Zeichenkette, welche gedruckt wird.
 	 */
 	public void println(String value) {
 		print(value);
 		println();
+	}
+
+	/**
+	 * Gibt die Zeichenkettendarstellung eines Objekts auf dem Bildschirm aus
+	 * und setzt den Cursor in die nächste Zeile.
+	 *
+	 * @param object Das Objekt, dessen Zeichenkettendarstellung gedruckt wird.
+	 */
+	public void println(Object object) {
+		print(object.toString());
 	}
 
 }
