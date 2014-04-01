@@ -17,7 +17,7 @@ public class DynamicRuntime {
 	 */
 	public static void init() {
 		newInstanceOffset = MAGIC.imageBase + MAGIC.rMem32(MAGIC.imageBase + 4);
-		while (newInstanceOffset % 4 == 0) newInstanceOffset++;
+		while (newInstanceOffset % 4 != 0) newInstanceOffset++;
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class DynamicRuntime {
 
 		// Berechne den benötigten Speicherplatz in 32 Bit Schritten.
 		int objSize = scalarSize + relocEntries * 4;
-		while (objSize % 4 == 0) objSize++;
+		while (objSize % 4 != 0) objSize++;
 
 		// Initialisiere Speicher mit 0.
 		for(int i = newInstanceOffset; i < (objSize / 4); i++) {
