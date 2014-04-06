@@ -1,5 +1,7 @@
 package kernel;
 
+import interrupts.Interrupts;
+import interrupts.Pic;
 import rte.DynamicRuntime;
 import video.Printer;
 
@@ -9,21 +11,21 @@ public class Kernel {
 	@SuppressWarnings({"InfiniteLoopStatement", "StatementWithEmptyBody"})
 	public static void main() {
 		DynamicRuntime.init();
+		Pic.init();
 
 		Printer.fillScreen(Printer.BLACK);
-		Printer p = new Printer();
-		p.setCursor(35, 0);
-		p.print("Guten Tag!");
-		p.setCursor(35, 1);
-		p.print("==========");
-		p.println();
-		p.println();
-		p.print("Dieses Printer-Objekt liegt an Adresse: ");
-		p.setColor(Printer.RED, Printer.BLACK);
-		p.printHex(MAGIC.cast2Ref(p));
-		p.print(" (");
-		p.print(MAGIC.cast2Ref(p));
-		p.print(')');
+
+		long tmp=(((long)0x300000)<<16)|(long)(256*8);
+		MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
+
+		int addr = MAGIC.rMem32(MAGIC.cast2Ref(MAGIC.clssDesc("Interrupts")) + MAGIC.mthdOff("Interrupts", "IHandler") + MAGIC.getCodeOff());
+		MAGIC.wMem32(0x300000 + 0 * 8, (0x08 << 16)|(addr&0xFFFF));
+		MAGIC.wMem32(0x300000 + 0 * 8 + 4, (addr & 0xFFFF0000)|0x8E00);
+
+		int a = 1;
+		int b = 0;
+		int c = a / b;
+		//MAGIC.inline(0xCC);
 
 		while (true) ;
 	}
