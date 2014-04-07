@@ -16,7 +16,7 @@ public class DynamicRuntime {
 	 * und vor allen anderen Methoden dieser Klasse aufgerufen werden.
 	 */
 	public static void init() {
-		newInstanceOffset = MAGIC.imageBase + MAGIC.rMem32(MAGIC.imageBase + 4);
+		newInstanceOffset = MAGIC.imageBase + MAGIC.rMem32(MAGIC.imageBase + 4) + 2048;
 		while (newInstanceOffset % 4 != 0) newInstanceOffset++;
 	}
 

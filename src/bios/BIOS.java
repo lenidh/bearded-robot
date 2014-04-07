@@ -164,6 +164,9 @@ public class BIOS {
 		MAGIC.inline(0x9C); //pushf
 		MAGIC.inline(0xFA); //cli
 		//TODO lidtRM(); //load idt with real mode interrupt table
+		long tmp=(((long)0)<<16)|(long)(1023);
+		MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
+
 		//call 16 bit code
 		MAGIC.inline(0x56); //push e/rsi
 		MAGIC.inline(0x57); //push e/rdi
@@ -185,6 +188,9 @@ public class BIOS {
 		MAGIC.inline(0x5F); //pop e/rdi
 		MAGIC.inline(0x5E); //pop e/rsi
 		//TODO lidt(); //load idt with protected/long mode interrupt table
+		tmp=(((long)MAGIC.imageBase + MAGIC.rMem32(MAGIC.imageBase + 4))<<16)|(long)(256*8);
+		MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
+
 		MAGIC.inline(0x9D); //popf
 	}
 }

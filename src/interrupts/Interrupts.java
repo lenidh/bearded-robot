@@ -12,12 +12,12 @@ public class Interrupts {
 	private static int tableLimit = 8 * 256;
 
 	public static void init() {
-		long tmp=(((long)baseAddress)<<16)|(long)tableLimit;
-		MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
+		//long tmp=(((long)baseAddress)<<16)|(long)tableLimit;
+		//MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
 
-		int addr = MAGIC.rMem32(MAGIC.cast2Ref(MAGIC.clssDesc("Interrupts")) + MAGIC.mthdOff("Interrupts", "IHandler") + MAGIC.getCodeOff());
-		MAGIC.wMem32(baseAddress + 3 * 8, (0x08 << 16)|(addr&0xFFFF));
-		MAGIC.wMem32(baseAddress + 3 * 8 + 4, (addr & 0xFFFF0000)|0x8E00);
+		//int addr = MAGIC.cast2Ref(MAGIC.clssDesc("Interrupts")) + MAGIC.mthdOff("Interrupts", "IHandler") + MAGIC.getCodeOff();
+		//MAGIC.wMem32(baseAddress + 3 * 8, (0x08 << 16)|(addr&0xFFFF));
+		//MAGIC.wMem32(baseAddress + 3 * 8 + 4, (addr & 0xFFFF0000)|0x8E00);
 
 		//setHandler(3, addr);
 	}
@@ -42,9 +42,7 @@ public class Interrupts {
 	}
 
 	@SJC.Interrupt
-	public static void IHandler() {
-		Printer.fillScreen(Printer.RED);
-		while (true);
+	public static void pass() {
 	}
 
 }
