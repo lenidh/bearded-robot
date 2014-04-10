@@ -1,6 +1,6 @@
 package interrupts;
 
 public class Idt extends STRUCT {
-	@SJC(count = 256)
+	@SJC(count = 48)
 	public IdtEntry[] entries;
 }

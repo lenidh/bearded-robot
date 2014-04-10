@@ -14,31 +14,33 @@ public class Kernel {
 		Printer.fillScreen(Printer.BLACK);
 		DynamicRuntime.init();
 
-		//testInterrupts();
-		testMode13h();
+		testInterrupts();
+		//testMode13h();
 
 		while (true) ;
 	}
 
 	// Minimalimplementierung Phase 3a
 	public static void testInterrupts() {
-		// Platziere Tabelle nach dem Image.
-		int idtOffset = MAGIC.imageBase + MAGIC.rMem32(MAGIC.imageBase + 4);
+		int idtOffset = 0x7E00;
 
 		// PICs initialisieren
 		Pic.init();
 
-		// Registriere Handler für die Breakpoint-Exception.
+		// Registriere Handler für die Exceptions.
 		int addr = MAGIC.rMem32(MAGIC.cast2Ref(MAGIC.clssDesc("Kernel")) + MAGIC.mthdOff("Kernel", "Handler") + MAGIC.getCodeOff());
-		MAGIC.wMem32(idtOffset + 3 * 8, (0x08 << 16)|(addr & 0xFFFF));
-		MAGIC.wMem32(idtOffset + 3 * 8 + 4, (addr & 0xFFFF0000)|0x8E00);
+		for(int i = 8; i < 48; i++) {
+			MAGIC.wMem32(idtOffset + i * 8, (0x08 << 16) | (addr & 0xFFFF));
+			MAGIC.wMem32(idtOffset + i * 8 + 4, (addr & 0xFFFF0000) | 0x8E00);
+		}
 
 		// Lade IDT
-		long tmp=(((long)idtOffset)<<16)|(long)(256*8);
+		long tmp=(((long)idtOffset)<<16)|(long)(48*8-1);
 		MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
 
-		// Löse Breakpoint-Exception aus.
-		MAGIC.inline(0xCC);
+		// Löse Exception aus.
+		int a = 0;
+		a = a / a;
 	}
 
 	// Phase 3b
