@@ -1,5 +1,9 @@
 package bios;
 
+import interrupts.IdtTypes;
+import interrupts.Interrupts;
+
+@SuppressWarnings("UnusedDeclaration")
 public class BIOS {
 	private final static int BIOS_MEMORY = 0x60000;
 	private final static int BIOS_STKEND = BIOS_MEMORY + 0x1000;
@@ -163,9 +167,9 @@ public class BIOS {
 		MAGIC.wMem8(BIOS_MEMORY + 61, (byte)inter); //set interrupt number
 		MAGIC.inline(0x9C); //pushf
 		MAGIC.inline(0xFA); //cli
-		//TODO lidtRM(); //load idt with real mode interrupt table
-		long tmp=(((long)0)<<16)|(long)(1023);
-		MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
+
+		//load IDT with real mode interrupt table
+		Interrupts.loadInterruptDescriptorTable(IdtTypes.REAL_MODE);
 
 		//call 16 bit code
 		MAGIC.inline(0x56); //push e/rsi
@@ -187,9 +191,9 @@ public class BIOS {
 		}
 		MAGIC.inline(0x5F); //pop e/rdi
 		MAGIC.inline(0x5E); //pop e/rsi
-		//TODO lidt(); //load idt with protected/long mode interrupt table
-		tmp=(((long)MAGIC.imageBase + MAGIC.rMem32(MAGIC.imageBase + 4))<<16)|(long)(256*8);
-		MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
+
+		//load IDT with protected/long mode interrupt table
+		Interrupts.loadInterruptDescriptorTable(IdtTypes.PROTECTED_MODE);
 
 		MAGIC.inline(0x9D); //popf
 	}

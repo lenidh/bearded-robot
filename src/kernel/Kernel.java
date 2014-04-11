@@ -2,7 +2,6 @@ package kernel;
 
 import bios.BIOS;
 import interrupts.Interrupts;
-import interrupts.Pic;
 import rte.DynamicRuntime;
 import video.Printer;
 
@@ -13,34 +12,19 @@ public class Kernel {
 	public static void main() {
 		Printer.fillScreen(Printer.BLACK);
 		DynamicRuntime.init();
+		Interrupts.init();
 
-		testInterrupts();
+		MAGIC.wIOs8(0x43, (byte)0x36);
+		MAGIC.wIOs8(0x40, (byte)(1193&0xFF));
+		MAGIC.wIOs8(0x40, (byte)((1193>>8)&0xFF));
+
+		TimerHandler timerHandler = new TimerHandler();
+		Interrupts.HANDLERS[32] = timerHandler;
+		Interrupts.enableIRQs();
+
 		//testMode13h();
 
 		while (true) ;
-	}
-
-	// Minimalimplementierung Phase 3a
-	public static void testInterrupts() {
-		int idtOffset = 0x7E00;
-
-		// PICs initialisieren
-		Pic.init();
-
-		// Registriere Handler für die Exceptions.
-		int addr = MAGIC.rMem32(MAGIC.cast2Ref(MAGIC.clssDesc("Kernel")) + MAGIC.mthdOff("Kernel", "Handler") + MAGIC.getCodeOff());
-		for(int i = 8; i < 48; i++) {
-			MAGIC.wMem32(idtOffset + i * 8, (0x08 << 16) | (addr & 0xFFFF));
-			MAGIC.wMem32(idtOffset + i * 8 + 4, (addr & 0xFFFF0000) | 0x8E00);
-		}
-
-		// Lade IDT
-		long tmp=(((long)idtOffset)<<16)|(long)(48*8-1);
-		MAGIC.inline(0x0F, 0x01, 0x5D); MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
-
-		// Löse Exception aus.
-		int a = 0;
-		a = a / a;
 	}
 
 	// Phase 3b
@@ -84,11 +68,5 @@ public class Kernel {
 
 		Printer p = new Printer();
 		p.println("Ende");
-	}
-
-	@SJC.Interrupt
-	public static void Handler() {
-		Printer.fillScreen(Printer.RED);
-		while (true);
 	}
 }

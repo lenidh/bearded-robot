@@ -1,12 +1,12 @@
 package interrupts;
 
-public class Pic {
+class Pics {
 
-	private final static int MASTER = 0x20;
+	public final static int MASTER = 0x20;
 
-	private final static int SLAVE = 0xA0;
+	public final static int SLAVE = 0xA0;
 
-	private Pic() {
+	private Pics() {
 	}
 
 	public static void init() {
