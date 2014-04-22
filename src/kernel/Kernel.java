@@ -2,7 +2,10 @@ package kernel;
 
 import bios.BIOS;
 import interrupts.Interrupts;
+import keyboard.Keyboard;
 import rte.DynamicRuntime;
+import test.KeyboardTest;
+import timer.Timer;
 import video.Printer;
 
 @SuppressWarnings("UnusedDeclaration")
@@ -13,18 +16,23 @@ public class Kernel {
 		Printer.fillScreen(Printer.BLACK);
 		DynamicRuntime.init();
 		Interrupts.init();
+		Timer.init();
+		Keyboard.init();
 
-		MAGIC.wIOs8(0x43, (byte)0x36);
-		MAGIC.wIOs8(0x40, (byte)(1193&0xFF));
-		MAGIC.wIOs8(0x40, (byte)((1193>>8)&0xFF));
-
-		TimerHandler timerHandler = new TimerHandler();
-		Interrupts.HANDLERS[32] = timerHandler;
 		Interrupts.enableIRQs();
 
 		//testMode13h();
+		testKeyboard();
 
-		while (true) ;
+		while (true);
+	}
+
+	public static void testKeyboard() {
+		Keyboard.setListener(new KeyboardTest());
+
+		while (true) {
+			Keyboard.process();
+		}
 	}
 
 	// Phase 3b
