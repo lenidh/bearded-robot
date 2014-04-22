@@ -2,6 +2,12 @@ package interrupts;
 
 public class Interrupts {
 
+	private static class DefaultHanlder extends InterruptHandler {
+		@Override
+		public void onInterrupt(int number, Integer errorCode) {
+		}
+	}
+
 	public static final int IDT_BASE = 0x7E00;
 	public static final Idt IDT = (Idt)MAGIC.cast2Struct(IDT_BASE);
 	public static final int IDT_LIMIT = 8 * Idt.SIZE - 1;
@@ -47,7 +53,7 @@ public class Interrupts {
 		setIsr(0x1F, MAGIC.mthdOff("Interrupts", "isr31")); // 31 - reserviert
 
 		// Hardware-Interrupts
-		setIsr(0x20, MAGIC.mthdOff("Interrupts", "isr32")); // 32 - Timer (IRQ0)
+		setIsr(0x20, MAGIC.mthdOff("Interrupts", "isr32")); // 32 - timer (IRQ0)
 		setIsr(0x21, MAGIC.mthdOff("Interrupts", "isr33")); // 33 - Tastatur (IRQ1)
 		setIsr(0x22, MAGIC.mthdOff("Interrupts", "isr34")); // 34 - IRQ2
 		setIsr(0x23, MAGIC.mthdOff("Interrupts", "isr35")); // 35 - IRQ3
@@ -63,6 +69,12 @@ public class Interrupts {
 		setIsr(0x2D, MAGIC.mthdOff("Interrupts", "isr45")); // 45 - IRQ13
 		setIsr(0x2E, MAGIC.mthdOff("Interrupts", "isr46")); // 46 - IRQ14
 		setIsr(0x2F, MAGIC.mthdOff("Interrupts", "isr47")); // 47 - IRQ15
+
+		// Standardhandler setzen
+		InterruptHandler defaultHandler = new DefaultHanlder();
+		for(int i = 0; i < Idt.SIZE; i++) {
+			HANDLERS[i] = defaultHandler;
+		}
 
 		// IDT laden
 		loadInterruptDescriptorTable(IdtTypes.PROTECTED_MODE);
