@@ -43,6 +43,8 @@ public class Keyboard {
 
 	public static final int RETURN = 18;
 
+	public static final int NUM_LOCK = 19;
+
 	public static final int FLAG_SHIFT = 1;
 
 	public static final int FLAG_CTRL = 2;
@@ -50,6 +52,8 @@ public class Keyboard {
 	public static final int FLAG_CAPS_LOCK = 4;
 
 	public static final int FLAG_ALT = 8;
+
+	public static final int FLAG_NUM_LOCK = 16;
 
 	static IntegerRingBuffer buffer = null;
 
@@ -96,6 +100,9 @@ public class Keyboard {
 						break;
 					case ALT:
 						toggleFlags = (isDown) ? (toggleFlags | FLAG_ALT) : (toggleFlags & ~FLAG_ALT);
+						break;
+					case NUM_LOCK:
+						if(isDown) toggleFlags = ((toggleFlags & FLAG_NUM_LOCK) == FLAG_NUM_LOCK) ? (toggleFlags & ~FLAG_NUM_LOCK) : (toggleFlags | FLAG_NUM_LOCK);
 						break;
 				}
 			}

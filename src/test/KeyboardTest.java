@@ -7,8 +7,7 @@ import video.Printer;
 public class KeyboardTest extends KeyboardListener {
 
 	public KeyboardTest() {
-		Printer.fillScreen(Printer.BLACK);
-		Printer.directPrintString("[Shift] [Caps] [Ctrl] [Alt] [Return] [Backspace] [Tab]", 0, 0, Printer.WHITE, Printer.BLACK);
+		Printer.directPrintString("[Shift] [Caps] [Ctrl] [Alt] [Return] [Backspace] [Tab] [Num]", 0, 0, Printer.WHITE, Printer.BLACK);
 	}
 
 	@Override
@@ -42,6 +41,9 @@ public class KeyboardTest extends KeyboardListener {
 					break;
 				case Keyboard.RETURN:
 					Printer.directPrintString("[Return]", 28, 0, Printer.BLACK, Printer.WHITE);
+					break;
+				case Keyboard.NUM_LOCK:
+					Printer.directPrintString("[Num]", 55, 0, Printer.BLACK, Printer.WHITE);
 					break;
 			}
 		}
@@ -82,6 +84,13 @@ public class KeyboardTest extends KeyboardListener {
 					break;
 				case Keyboard.RETURN:
 					Printer.directPrintString("[Return]", 28, 0, Printer.WHITE, Printer.BLACK);
+					break;
+				case Keyboard.NUM_LOCK:
+					if((flags & Keyboard.FLAG_NUM_LOCK) == Keyboard.FLAG_NUM_LOCK) {
+						Printer.directPrintString("[Num]", 55, 0, Printer.RED, Printer.BLACK);
+					} else {
+						Printer.directPrintString("[Num]", 55, 0, Printer.WHITE, Printer.BLACK);
+					}
 					break;
 			}
 		}

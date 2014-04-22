@@ -247,6 +247,8 @@ class Layout {
 				return 32;
 			case 58:
 				return Keyboard.CAPS_LOCK;
+			case 69:
+				return Keyboard.NUM_LOCK;
 		}
 
 		return Keyboard.UNSPECIFIED;
