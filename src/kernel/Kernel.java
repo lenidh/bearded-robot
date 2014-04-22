@@ -1,6 +1,7 @@
 package kernel;
 
 import bios.BIOS;
+import bios.MemoryMap;
 import interrupts.Interrupts;
 import keyboard.Keyboard;
 import rte.DynamicRuntime;
@@ -21,15 +22,9 @@ public class Kernel {
 
 		Interrupts.enableIRQs();
 
-		//testMode13h();
-		testKeyboard();
+		MemoryMap.printFree();
 
-		while (true);
-	}
-
-	public static void testKeyboard() {
 		Keyboard.setListener(new KeyboardTest());
-
 		while (true) {
 			Keyboard.process();
 		}
