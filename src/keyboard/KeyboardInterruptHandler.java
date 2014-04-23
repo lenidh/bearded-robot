@@ -6,7 +6,9 @@ class KeyboardInterruptHandler extends InterruptHandler {
 
 	private int remaining;
 
-	private int tmp;
+	private int scanCodeBuffer;
+
+	private int breakpointBuffer;
 
 	@Override
 	public void onInterrupt(int number, Integer errorCode) {
@@ -16,17 +18,22 @@ class KeyboardInterruptHandler extends InterruptHandler {
 			b |= 0x80;
 		}
 
+		breakpointBuffer = ((breakpointBuffer << 8) | b) & 0xFFFFFF;
+		if(breakpointBuffer == 0x1D2A01 || breakpointBuffer == 0x2A1D01) {
+			MAGIC.inline(0xCC);
+		}
+
 		if(remaining > 0) {
-			tmp = (tmp << 8) | b;
+			scanCodeBuffer = (scanCodeBuffer << 8) | b;
 			remaining--;
 		} else {
 			if(b >= 0xE2) return;
-			tmp = b;
+			scanCodeBuffer = b;
 			remaining = b - 0xDF;
 		}
 
 		if(remaining <= 0) {
-			Keyboard.buffer.push(tmp);
+			Keyboard.buffer.push(scanCodeBuffer);
 		}
 	}
 }
