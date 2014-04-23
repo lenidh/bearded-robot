@@ -1,10 +1,15 @@
 package interrupts;
 
+import video.Printer;
+
 public class Interrupts {
 
 	private static class DefaultHanlder extends InterruptHandler {
 		@Override
 		public void onInterrupt(int number, Integer errorCode) {
+			Printer.directPrintString("Interrupt:", 0, 24, Printer.WHITE, Printer.BLACK);
+			Printer.directPrintInt(number, 10, 0, 11, 24, Printer.WHITE, Printer.BLACK);
+			while (true);
 		}
 	}
 
@@ -122,6 +127,11 @@ public class Interrupts {
 		MAGIC.inline(0xFA);
 	}
 
+
+	// Es folgen die Interrupt-Service-Routinen, welche jeweils ihren
+	// InterruptHandler aufrufen. Bei Hardware-Interrupts erfolgt außerdem eine
+	// Interruptbestätigung
+
 	@SuppressWarnings("UnusedDeclaration")
 	@SJC.Interrupt
 	public static void isr0() {
@@ -186,7 +196,7 @@ public class Interrupts {
 		Interrupts.enableIRQs();
 	}
 
-	@SuppressWarnings("UnusedDeclaration")
+	@SuppressWarnings({"UnusedDeclaration", "UnnecessaryBoxing"})
 	@SJC.Interrupt
 	public static void isr8(int arg) {
 		Interrupts.disableIRQs();
@@ -194,7 +204,7 @@ public class Interrupts {
 		Interrupts.enableIRQs();
 	}
 
-	@SuppressWarnings("UnusedDeclaration")
+	@SuppressWarnings({"UnusedDeclaration", "UnnecessaryBoxing"})
 	@SJC.Interrupt
 	public static void isr9() {
 		Interrupts.disableIRQs();
@@ -202,7 +212,7 @@ public class Interrupts {
 		Interrupts.enableIRQs();
 	}
 
-	@SuppressWarnings("UnusedDeclaration")
+	@SuppressWarnings({"UnusedDeclaration", "UnnecessaryBoxing"})
 	@SJC.Interrupt
 	public static void isr10(int arg) {
 		Interrupts.disableIRQs();
@@ -210,7 +220,7 @@ public class Interrupts {
 		Interrupts.enableIRQs();
 	}
 
-	@SuppressWarnings("UnusedDeclaration")
+	@SuppressWarnings({"UnusedDeclaration", "UnnecessaryBoxing"})
 	@SJC.Interrupt
 	public static void isr11(int arg) {
 		Interrupts.disableIRQs();
@@ -218,7 +228,7 @@ public class Interrupts {
 		Interrupts.enableIRQs();
 	}
 
-	@SuppressWarnings("UnusedDeclaration")
+	@SuppressWarnings({"UnusedDeclaration", "UnnecessaryBoxing"})
 	@SJC.Interrupt
 	public static void isr12(int arg) {
 		Interrupts.disableIRQs();
@@ -226,7 +236,7 @@ public class Interrupts {
 		Interrupts.enableIRQs();
 	}
 
-	@SuppressWarnings("UnusedDeclaration")
+	@SuppressWarnings({"UnusedDeclaration", "UnnecessaryBoxing"})
 	@SJC.Interrupt
 	public static void isr13(int arg) {
 		Interrupts.disableIRQs();
@@ -234,7 +244,7 @@ public class Interrupts {
 		Interrupts.enableIRQs();
 	}
 
-	@SuppressWarnings("UnusedDeclaration")
+	@SuppressWarnings({"UnusedDeclaration", "UnnecessaryBoxing"})
 	@SJC.Interrupt
 	public static void isr14(int arg) {
 		Interrupts.disableIRQs();
