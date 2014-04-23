@@ -1,10 +1,13 @@
-package bios;
+package test;
 
+import bios.BIOS;
+import bios.MemoryMapBuffer;
+import kernel.Kernel;
 import video.Printer;
 
-public class MemoryMap {
+public class MemoryMapTest {
 	public static void printFree() {
-		MemoryMapBuffer buffer = (MemoryMapBuffer)MAGIC.cast2Struct(0x7E80);
+		MemoryMapBuffer buffer = (MemoryMapBuffer)MAGIC.cast2Struct(Kernel.MEMORY_MAP_BUFFER_BASE);
 
 		Printer printer = new Printer();
 		printer.setCursor(0, 5);
@@ -20,7 +23,7 @@ public class MemoryMap {
 			BIOS.regs.EDX = 0x534D4150;
 			BIOS.regs.ECX = 20;
 			BIOS.regs.ES = 0x0;
-			BIOS.regs.EDI = 0x7E80;
+			BIOS.regs.EDI = Kernel.MEMORY_MAP_BUFFER_BASE;
 
 			BIOS.rint(0x15);
 

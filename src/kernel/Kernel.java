@@ -1,7 +1,7 @@
 package kernel;
 
 import bios.BIOS;
-import bios.MemoryMap;
+import test.MemoryMapTest;
 import interrupts.Interrupts;
 import keyboard.Keyboard;
 import rte.DynamicRuntime;
@@ -12,18 +12,30 @@ import video.Printer;
 @SuppressWarnings("UnusedDeclaration")
 public class Kernel {
 
+	/**
+	 * Basisadresse der IDT.
+	 */
+	public static final int IDT_BASE = 0x7E00;
+
+	/**
+	 * Basisadresse des Puffers zum Auslesen der Speicherbereiche.
+	 */
+	public static final int MEMORY_MAP_BUFFER_BASE = 0x7E80;
+
 	@SuppressWarnings({"InfiniteLoopStatement", "StatementWithEmptyBody"})
 	public static void main() {
 		Printer.fillScreen(Printer.BLACK);
 		DynamicRuntime.init();
 		Interrupts.init();
 		Timer.init();
-		Keyboard.init();
+		Keyboard.init(); // Phase 4a
 
 		Interrupts.enableIRQs();
 
-		MemoryMap.printFree();
+		// Phase 4c
+		MemoryMapTest.printFree();
 
+		// Phase 4b
 		Keyboard.setListener(new KeyboardTest());
 		while (true) {
 			Keyboard.process();
@@ -61,8 +73,9 @@ public class Kernel {
 			}
 		}
 
-		// HACK: 'Halte an'; Interrupts funktionieren noch nicht; Effekt tritt
-		// bei zu leistungsfähigen Rechnern nicht auf..
+		// HACK: 'Halte an'; Effekt tritt bei zu leistungsfähigen Rechnern nicht
+		// auf.
+		// TODO: Timer basiertes Warten
 		for(int i = 0; i < 1000000000; i++) { }
 
 		// Zurück in den Textmodus wechseln

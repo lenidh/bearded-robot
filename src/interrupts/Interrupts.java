@@ -1,5 +1,6 @@
 package interrupts;
 
+import kernel.Kernel;
 import video.Printer;
 
 /**
@@ -18,6 +19,7 @@ public class Interrupts {
 		 * @param number Nummer des Interrupts
 		 * @param errorCode Fehlercode bei Interrupts mit Fehlercode, sonst null.
 		 */
+		@SuppressWarnings({"InfiniteLoopStatement", "StatementWithEmptyBody"})
 		@Override
 		public void onInterrupt(int number, Integer errorCode) {
 			Printer.directPrintString("Interrupt:", 0, 24, Printer.WHITE, Printer.BLACK);
@@ -27,14 +29,9 @@ public class Interrupts {
 	}
 
 	/**
-	 * Basisadresse der IDT.
-	 */
-	public static final int IDT_BASE = 0x7E00;
-
-	/**
 	 * IDT des Protected Mode.
 	 */
-	public static final Idt IDT = (Idt)MAGIC.cast2Struct(IDT_BASE);
+	public static final Idt IDT = (Idt)MAGIC.cast2Struct(Kernel.IDT_BASE);
 
 	/**
 	 * Limit der IDT.
@@ -151,7 +148,7 @@ public class Interrupts {
 				tmp = (long)1023;
 				break;
 			case IdtTypes.PROTECTED_MODE:
-				tmp = (((long)IDT_BASE) << 16) | (long)IDT_LIMIT;
+				tmp = (((long)Kernel.IDT_BASE) << 16) | (long)IDT_LIMIT;
 				break;
 			default:
 				return;
