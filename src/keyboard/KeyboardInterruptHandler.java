@@ -4,10 +4,20 @@ import interrupts.InterruptHandler;
 
 class KeyboardInterruptHandler extends InterruptHandler {
 
+	/**
+	 * Folgende Bytes, die für einen vollständigen Scan-Code nötig
+	 * sind.
+	 */
 	private int remaining;
 
+	/**
+	 * Bisherige Teile eines Scancodes.
+	 */
 	private int scanCodeBuffer;
 
+	/**
+	 * Die letzten byte-Werte.
+	 */
 	private int breakpointBuffer;
 
 	@Override

@@ -2,9 +2,22 @@ package interrupts;
 
 import video.Printer;
 
+/**
+ * Interrupt-Verwatlungsklasse
+ */
 public class Interrupts {
 
-	private static class DefaultHanlder extends InterruptHandler {
+	/**
+	 * Standard-Interrupt-Handler
+	 */
+	private static class DefaultHandler extends InterruptHandler {
+
+		/**
+		 * Hält System an und gibt Interrupt-Informationen aus.
+		 *
+		 * @param number Nummer des Interrupts
+		 * @param errorCode Fehlercode bei Interrupts mit Fehlercode, sonst null.
+		 */
 		@Override
 		public void onInterrupt(int number, Integer errorCode) {
 			Printer.directPrintString("Interrupt:", 0, 24, Printer.WHITE, Printer.BLACK);
@@ -13,14 +26,32 @@ public class Interrupts {
 		}
 	}
 
+	/**
+	 * Basisadresse der IDT.
+	 */
 	public static final int IDT_BASE = 0x7E00;
+
+	/**
+	 * IDT des Protected Mode.
+	 */
 	public static final Idt IDT = (Idt)MAGIC.cast2Struct(IDT_BASE);
+
+	/**
+	 * Limit der IDT.
+	 */
 	public static final int IDT_LIMIT = 8 * Idt.SIZE - 1;
+
+	/**
+	 * Die Referenzen auf die Interrupt-Handler.
+	 */
 	public static final InterruptHandler[] HANDLERS = new InterruptHandler[Idt.SIZE];
 
 	private Interrupts() {
 	}
 
+	/**
+	 * Initialisiert die Interrupt-Funktionalität.
+	 */
 	public static void init() {
 
 		// Exceptions
@@ -76,7 +107,7 @@ public class Interrupts {
 		setIsr(0x2F, MAGIC.mthdOff("Interrupts", "isr47")); // 47 - IRQ15
 
 		// Standardhandler setzen
-		InterruptHandler defaultHandler = new DefaultHanlder();
+		InterruptHandler defaultHandler = new DefaultHandler();
 		for(int i = 0; i < Idt.SIZE; i++) {
 			HANDLERS[i] = defaultHandler;
 		}
@@ -88,6 +119,12 @@ public class Interrupts {
 		Pics.init();
 	}
 
+	/**
+	 * Initialisiert einen Eintrag der IDT mit dem angegebenen Methoden-Offset.
+	 *
+	 * @param n Index des IDT-Eintrags.
+	 * @param methodOffset Methoden-Offset einer ISR.
+	 */
 	private static void setIsr(int n, int methodOffset) {
 		int codeOffset = MAGIC.getCodeOff();
 		int classReference = MAGIC.cast2Ref(MAGIC.clssDesc("Interrupts"));
@@ -99,6 +136,13 @@ public class Interrupts {
 		IDT.entries[n].offsetHi = (short)((isrAddress >> 16) & 0xFFFF);
 	}
 
+	/**
+	 * Lädt die Interrupt-Descriptor-Tabelle vom angegebenen Typ.
+	 *
+	 * @see interrupts.IdtTypes
+	 *
+	 * @param idtType Der Typ der IDT, welche geladen werden soll.
+	 */
 	public static void loadInterruptDescriptorTable(int idtType) {
 		long tmp;
 
@@ -117,11 +161,17 @@ public class Interrupts {
 		MAGIC.inlineOffset(1, tmp); // lidt [ebp-0x08/tmp]
 	}
 
+	/**
+	 * Gibt die Interrupts frei.
+	 */
 	@SJC.Inline
 	public static void enableIRQs() {
 		MAGIC.inline(0xFB);
 	}
 
+	/**
+	 * Sperrt die Interrupts.
+	 */
 	@SJC.Inline
 	public static void disableIRQs() {
 		MAGIC.inline(0xFA);

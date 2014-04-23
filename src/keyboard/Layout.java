@@ -1,6 +1,17 @@
 package keyboard;
 
+/**
+ * Stellt Informationen zum Layout der Tastatur bereit.
+ */
 class Layout {
+
+	/**
+	 * Ermittelt, ob ein Key-Code (unter Berücksichtigung der Modifier-Keys)
+	 * einem Char-Wert zugeordnet werden kann.
+	 *
+	 * @param keyCode Der zu untersuchende Key-Code.
+	 * @return true falls der Key-Code einem Char-Wert zugeordnet werden kann, sonst false.
+	 */
 	public boolean isCharacter(int keyCode) {
 		switch (keyCode) {
 			case 2:
@@ -82,6 +93,13 @@ class Layout {
 		return false;
 	}
 
+	/**
+	 * Ermittelt den Wert einer Taste. Der Wert entspricht entwerder einem
+	 * ASCII-Wert oder einem Konstantenwert.
+	 *
+	 * @param keyCode Der Code dessen Wert ermittelt wird.
+	 * @return Der Wert der Taste.
+	 */
 	public int value(int keyCode) {
 		switch (keyCode) {
 			case 2: // 1

@@ -3,7 +3,12 @@ package keyboard;
 import container.IntegerRingBuffer;
 import interrupts.Interrupts;
 
+/**
+ * Keyboard-Verwaltungsklasse
+ */
 public class Keyboard {
+
+	// Konstanten für nicht als char darstellbare Tastenwerte.
 
 	public static final int UNSPECIFIED = 0;
 
@@ -45,6 +50,9 @@ public class Keyboard {
 
 	public static final int NUM_LOCK = 19;
 
+
+	// Flags-Werte von Modifizierungstasten
+
 	public static final int FLAG_SHIFT = 1;
 
 	public static final int FLAG_CTRL = 2;
@@ -55,26 +63,52 @@ public class Keyboard {
 
 	public static final int FLAG_NUM_LOCK = 16;
 
+	/**
+	 * Puffer für empfangene Tastatur-Scan-Codes.
+	 */
 	static IntegerRingBuffer buffer = null;
 
+	/**
+	 * Der Interrupt-Handler für IRQ1.
+	 */
 	private static KeyboardInterruptHandler interruptHandler = new KeyboardInterruptHandler();
 
+	/**
+	 * Das Layout der Tastatur.
+	 */
 	private static Layout layout = new Layout();
 
+	/**
+	 * Der Listener, der über eingehende Tastatur-Events benachrichtigt wird.
+	 */
 	private static KeyboardListener listener = null;
 
+	/**
+	 * Flags die den Zustand der Modifizierungstasten angeben.
+	 */
 	private static int toggleFlags = 0;
 
+	/**
+	 * Initialisiert die Keyboard-Funktionalität.
+	 */
 	public static void init() {
 		buffer = new IntegerRingBuffer(32);
 
 		Interrupts.HANDLERS[33] = interruptHandler;
 	}
 
+	/**
+	 * Setzt den Listener.
+	 *
+	 * @param listener Listener
+	 */
 	public static void setListener(KeyboardListener listener) {
 		Keyboard.listener = listener;
 	}
 
+	/**
+	 * Verarbeitet die aktuell im Puffer vorhandenen Scan-Codes.
+	 */
 	public static void process() {
 		while (buffer.size() > 0) {
 			int scanCode = buffer.front();
@@ -117,11 +151,23 @@ public class Keyboard {
 		}
 	}
 
+	/**
+	 * Ermittelt, ob die Modifizierungstaste(n) für das zweite Level der
+	 * Tastenwerte aktiv sind.
+	 *
+	 * @return true falls das zweite Level der Tasten genutzt werden soll, sonst
+	 * false.
+	 */
 	public static boolean isMod1() {
 		boolean caps = (toggleFlags & FLAG_CAPS_LOCK) == FLAG_CAPS_LOCK;
 		return (caps) ? (toggleFlags & FLAG_SHIFT) != FLAG_SHIFT : (toggleFlags & FLAG_SHIFT) == FLAG_SHIFT;
 	}
 
+	/**
+	 * Ermittelt, ob der Num-Lock aktiv ist.
+	 *
+	 * @return true falls der Num-Lock aktiv ist, sonst false.
+	 */
 	public static boolean isNumLk() {
 		return ((toggleFlags & FLAG_NUM_LOCK) == FLAG_NUM_LOCK);
 	}

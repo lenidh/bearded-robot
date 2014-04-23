@@ -4,6 +4,9 @@ import keyboard.Keyboard;
 import keyboard.KeyboardListener;
 import video.Printer;
 
+/**
+ * Testklasse für die Tastaturfunktionalität.
+ */
 public class KeyboardTest extends KeyboardListener {
 
 	public KeyboardTest() {
