@@ -48,6 +48,36 @@ class Layout {
 			case 53:
 			case 57:
 				return true;
+			case 71:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 72:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 73:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 75:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 76:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 77:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 79:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 80:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 81:
+				if(!Keyboard.isNumLk()) break;
+				return true;
+			case 82:
+				if(!Keyboard.isNumLk()) break;
+				return true;
 		}
 		return false;
 	}
@@ -249,6 +279,56 @@ class Layout {
 				return Keyboard.CAPS_LOCK;
 			case 69:
 				return Keyboard.NUM_LOCK;
+			case 71:
+				if(Keyboard.isNumLk()) {
+					return 55;
+				}
+				break;
+			case 72:
+				if(Keyboard.isNumLk()) {
+					return 56;
+				}
+				break;
+			case 73:
+				if(Keyboard.isNumLk()) {
+					return 57;
+				}
+				break;
+			case 75:
+				if(Keyboard.isNumLk()) {
+					return 52;
+				}
+				break;
+			case 76:
+				if(Keyboard.isNumLk()) {
+					return 53;
+				}
+				break;
+			case 77:
+				if(Keyboard.isNumLk()) {
+					return 54;
+				}
+				break;
+			case 79:
+				if(Keyboard.isNumLk()) {
+					return 49;
+				}
+				break;
+			case 80:
+				if(Keyboard.isNumLk()) {
+					return 50;
+				}
+				break;
+			case 81:
+				if(Keyboard.isNumLk()) {
+					return 51;
+				}
+				break;
+			case 82:
+				if(Keyboard.isNumLk()) {
+					return 48;
+				}
+				break;
 		}
 
 		return Keyboard.UNSPECIFIED;

@@ -122,6 +122,10 @@ public class Keyboard {
 		return (caps) ? (toggleFlags & FLAG_SHIFT) != FLAG_SHIFT : (toggleFlags & FLAG_SHIFT) == FLAG_SHIFT;
 	}
 
+	public static boolean isNumLk() {
+		return ((toggleFlags & FLAG_NUM_LOCK) == FLAG_NUM_LOCK);
+	}
+
 	private Keyboard() {
 	}
 }
