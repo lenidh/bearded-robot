@@ -295,6 +295,26 @@ class Layout {
 				return 32;
 			case 58:
 				return Keyboard.CAPS_LOCK;
+			case 59:
+				return Keyboard.F1;
+			case 60:
+				return Keyboard.F2;
+			case 61:
+				return Keyboard.F3;
+			case 62:
+				return Keyboard.F4;
+			case 63:
+				return Keyboard.F5;
+			case 64:
+				return Keyboard.F6;
+			case 65:
+				return Keyboard.F7;
+			case 66:
+				return Keyboard.F8;
+			case 67:
+				return Keyboard.F9;
+			case 68:
+				return Keyboard.F10;
 			case 69:
 				return Keyboard.NUM_LOCK;
 			case 71:
@@ -347,6 +367,10 @@ class Layout {
 					return 48;
 				}
 				break;
+			case 87:
+				return Keyboard.F11;
+			case 88:
+				return Keyboard.F12;
 		}
 
 		return Keyboard.UNSPECIFIED;
