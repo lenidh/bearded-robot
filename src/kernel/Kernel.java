@@ -1,11 +1,12 @@
 package kernel;
 
 import bios.BIOS;
+import dbg.Debugging;
+import test.KeyboardTest;
 import test.MemoryMapTest;
 import interrupts.Interrupts;
 import keyboard.Keyboard;
 import rte.DynamicRuntime;
-import test.KeyboardTest;
 import timer.Timer;
 import video.Printer;
 
@@ -28,14 +29,12 @@ public class Kernel {
 		DynamicRuntime.init();
 		Interrupts.init();
 		Timer.init();
-		Keyboard.init(); // Phase 4a
+		Keyboard.init();
+		Debugging.init();
 
 		Interrupts.enableIRQs();
 
-		// Phase 4c
 		MemoryMapTest.printFree();
-
-		// Phase 4b
 		Keyboard.setListener(new KeyboardTest());
 		while (true) {
 			Keyboard.process();
