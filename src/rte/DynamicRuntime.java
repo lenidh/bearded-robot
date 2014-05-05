@@ -7,17 +7,11 @@ package rte;
 public class DynamicRuntime {
 
 	/**
-	 * Startadresse der nächsten neuen Instanz.
-	 */
-	private static int newInstanceOffset;
-
-	/**
 	 * Initialisiert die Laufzeitumgebung. Diese Methode muss explizit, einmalig
 	 * und vor allen anderen Methoden dieser Klasse aufgerufen werden.
 	 */
 	public static void init() {
-		newInstanceOffset = MAGIC.imageBase + MAGIC.rMem32(MAGIC.imageBase + 4) + 2048;
-		while (newInstanceOffset % 4 != 0) newInstanceOffset++;
+		MemoryManager.init();
 	}
 
 	/**
@@ -49,14 +43,17 @@ public class DynamicRuntime {
 		int objSize = scalarSize + relocEntries * 4;
 		while (objSize % 4 != 0) objSize++;
 
+		// Reserviere Speicher
+		int instanceOffset = MemoryManager.allocate(objSize);
+
 		// Initialisiere Speicher mit 0.
-		for (int i = newInstanceOffset; i < (objSize / 4); i++) {
+		for (int i = instanceOffset; i < (objSize / 4); i++) {
 			MAGIC.wMem32(i, 0);
 		}
 
 		// Wandle den Speicherbereich in ein Objekt um, um damit einfacher
 		// arbeiten zu können.
-		Object obj = MAGIC.cast2Obj(newInstanceOffset + relocEntries * 4);
+		Object obj = MAGIC.cast2Obj(instanceOffset + relocEntries * 4);
 
 		// Setze die Felder des Objekts.
 		MAGIC.assign(obj._r_scalarSize, scalarSize);
@@ -66,9 +63,6 @@ public class DynamicRuntime {
 		// Hänge das Objekt in die Objektkette ein.
 		//noinspection ConstantConditions
 		MAGIC.assign(lastObj._r_next, obj);
-
-		// Setze den neuen Offset für das nächste Objekt.
-		newInstanceOffset += objSize;
 
 		return obj;
 	}
