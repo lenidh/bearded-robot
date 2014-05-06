@@ -1,4 +1,4 @@
-package test;
+package apps.tests;
 
 import bios.BIOS;
 import bios.MemoryMapBuffer;

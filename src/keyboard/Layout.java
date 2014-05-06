@@ -60,34 +60,34 @@ class Layout {
 			case 57:
 				return true;
 			case 71:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 72:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 73:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 75:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 76:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 77:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 79:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 80:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 81:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 			case 82:
-				if(!Keyboard.isNumLk()) break;
+				if(!Keyboard.initstance().isNumLk()) break;
 				return true;
 		}
 		return false;
@@ -127,57 +127,57 @@ class Layout {
 			case 15:
 				return 9;
 			case 16: // q
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 81;
 				}
 				return 113;
 			case 17: // w
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 87;
 				}
 				return 119;
 			case 18: // e
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 69;
 				}
 				return 101;
 			case 19: // r
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 82;
 				}
 				return 114;
 			case 20: // t
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 84;
 				}
 				return 116;
 			case 21: // z
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 90;
 				}
 				return 122;
 			case 22: // u
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 85;
 				}
 				return 117;
 			case 23: // i
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 73;
 				}
 				return 105;
 			case 24: // o
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 79;
 				}
 				return 111;
 			case 25: // p
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 80;
 				}
 				return 112;
 			case 27:
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 42;
 				}
 				return 43;
@@ -186,104 +186,104 @@ class Layout {
 			case 29:
 				return Keyboard.CTRL;
 			case 30: // a
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 65;
 				}
 				return 97;
 			case 31: // s
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 83;
 				}
 				return 115;
 			case 32: // d
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 68;
 				}
 				return 100;
 			case 33: // f
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 70;
 				}
 				return 102;
 			case 34: // g
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 71;
 				}
 				return 103;
 			case 35: // h
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 72;
 				}
 				return 104;
 			case 36: // j
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 74;
 				}
 				return 106;
 			case 37: // k
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 75;
 				}
 				return 107;
 			case 38: // l
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 76;
 				}
 				return 108;
 			case 42:
 				return Keyboard.SHIFT_LEFT;
 			case 43: // #
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 35;
 				}
 				return 39;
 			case 44: // y
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 89;
 				}
 				return 121;
 			case 45: // x
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 88;
 				}
 				return 120;
 			case 46: // c
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 67;
 				}
 				return 99;
 			case 47: // v
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 86;
 				}
 				return 118;
 			case 48: // b
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 66;
 				}
 				return 98;
 			case 49: // n
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 78;
 				}
 				return 110;
 			case 50: // m
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 77;
 				}
 				return 109;
 			case 51: // ,
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 59;
 				}
 				return 44;
 			case 52: // .
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 58;
 				}
 				return 46;
 			case 53: // -
-				if(Keyboard.isMod1()) {
+				if(Keyboard.initstance().isMod1()) {
 					return 95;
 				}
 				return 45;
@@ -318,52 +318,52 @@ class Layout {
 			case 69:
 				return Keyboard.NUM_LOCK;
 			case 71:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 55;
 				}
 				break;
 			case 72:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 56;
 				}
 				break;
 			case 73:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 57;
 				}
 				break;
 			case 75:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 52;
 				}
 				break;
 			case 76:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 53;
 				}
 				break;
 			case 77:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 54;
 				}
 				break;
 			case 79:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 49;
 				}
 				break;
 			case 80:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 50;
 				}
 				break;
 			case 81:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 51;
 				}
 				break;
 			case 82:
-				if(Keyboard.isNumLk()) {
+				if(Keyboard.initstance().isNumLk()) {
 					return 48;
 				}
 				break;

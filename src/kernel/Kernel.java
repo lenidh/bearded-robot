@@ -1,9 +1,11 @@
 package kernel;
 
+import apps.BusyCrocodile;
+import apps.tests.KeyboardTest;
 import bios.BIOS;
 import dbg.Debugging;
-import test.KeyboardTest;
-import test.MemoryMapTest;
+import scheduling.Scheduler;
+import scheduling.Task;
 import interrupts.Interrupts;
 import keyboard.Keyboard;
 import rte.DynamicRuntime;
@@ -29,16 +31,19 @@ public class Kernel {
 		DynamicRuntime.init();
 		Interrupts.init();
 		Timer.init();
-		Keyboard.init();
 		Debugging.init();
 
 		Interrupts.enableIRQs();
 
-		MemoryMapTest.printFree();
-		Keyboard.setListener(new KeyboardTest());
-		while (true) {
-			Keyboard.process();
-		}
+		Task crocodile = new BusyCrocodile();
+		Task keyboard = Keyboard.initstance();
+		Task kt = new KeyboardTest();
+
+		Scheduler scheduler = new Scheduler();
+		scheduler.addTask(crocodile, true);
+		scheduler.addTask(keyboard, true);
+		scheduler.addTask(kt);
+		scheduler.start();
 	}
 
 	// Phase 3b

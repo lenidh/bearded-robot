@@ -2,11 +2,12 @@ package keyboard;
 
 import container.IntegerRingBuffer;
 import interrupts.Interrupts;
+import scheduling.Task;
 
 /**
  * Keyboard-Verwaltungsklasse
  */
-public class Keyboard {
+public class Keyboard extends Task {
 
 	// Konstanten für nicht als char darstellbare Tastenwerte.
 
@@ -66,34 +67,41 @@ public class Keyboard {
 	/**
 	 * Puffer für empfangene Tastatur-Scan-Codes.
 	 */
-	static IntegerRingBuffer buffer = null;
+	IntegerRingBuffer buffer = new IntegerRingBuffer(32);;
 
 	/**
 	 * Der Interrupt-Handler für IRQ1.
 	 */
-	private static KeyboardInterruptHandler interruptHandler = new KeyboardInterruptHandler();
+	private KeyboardInterruptHandler interruptHandler = new KeyboardInterruptHandler();
 
 	/**
 	 * Das Layout der Tastatur.
 	 */
-	private static Layout layout = new Layout();
+	private Layout layout = new Layout();
 
 	/**
 	 * Der Listener, der über eingehende Tastatur-Events benachrichtigt wird.
 	 */
-	private static KeyboardListener listener = null;
+	private KeyboardListener listener = null;
 
 	/**
 	 * Flags die den Zustand der Modifizierungstasten angeben.
 	 */
-	private static int toggleFlags = 0;
+	private int toggleFlags = 0;
+
+	private static Keyboard instance = null;
 
 	/**
 	 * Initialisiert die Keyboard-Funktionalität.
 	 */
-	public static void init() {
-		buffer = new IntegerRingBuffer(32);
+	public static Keyboard initstance() {
+		if(instance == null) {
+			instance = new Keyboard();
+		}
+		return instance;
+	}
 
+	private Keyboard() {
 		Interrupts.HANDLERS[33] = interruptHandler;
 	}
 
@@ -102,17 +110,17 @@ public class Keyboard {
 	 *
 	 * @param listener Listener
 	 */
-	public static void setListener(KeyboardListener listener) {
-		Keyboard.listener = listener;
+	public void setListener(KeyboardListener listener) {
+		this.listener = listener;
 	}
 
 	/**
 	 * Verarbeitet die aktuell im Puffer vorhandenen Scan-Codes.
 	 */
-	public static void process() {
-		while (buffer.size() > 0) {
-			int scanCode = buffer.front();
-			buffer.pop();
+	public void onSchedule() {
+		while (this.buffer.size() > 0) {
+			int scanCode = this.buffer.front();
+			this.buffer.pop();
 
 			int keyCode = scanCode & 0xFFFFFF7F;
 			boolean isDown = (scanCode & 0x80) == 0;
@@ -158,7 +166,7 @@ public class Keyboard {
 	 * @return true falls das zweite Level der Tasten genutzt werden soll, sonst
 	 * false.
 	 */
-	public static boolean isMod1() {
+	public boolean isMod1() {
 		boolean caps = (toggleFlags & FLAG_CAPS_LOCK) == FLAG_CAPS_LOCK;
 		return (caps) ? (toggleFlags & FLAG_SHIFT) != FLAG_SHIFT : (toggleFlags & FLAG_SHIFT) == FLAG_SHIFT;
 	}
@@ -168,10 +176,7 @@ public class Keyboard {
 	 *
 	 * @return true falls der Num-Lock aktiv ist, sonst false.
 	 */
-	public static boolean isNumLk() {
+	public boolean isNumLk() {
 		return ((toggleFlags & FLAG_NUM_LOCK) == FLAG_NUM_LOCK);
-	}
-
-	private Keyboard() {
 	}
 }
