@@ -24,7 +24,6 @@ class Layout {
 			case 9:
 			case 10:
 			case 11:
-			case 14:
 			case 15:
 			case 16:
 			case 17:
@@ -123,7 +122,7 @@ class Layout {
 			case 11: // 0
 				return 48;
 			case 14:
-				return 8;
+				return Keyboard.BACKSPACE;
 			case 15:
 				return 9;
 			case 16: // q

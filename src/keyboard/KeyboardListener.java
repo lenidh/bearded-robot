@@ -5,6 +5,8 @@ package keyboard;
  */
 public abstract class KeyboardListener {
 
+	KeyboardListener next = null;
+
 	/**
 	 * Wird aufgerufen, wenn eine Taste gedrückt wird.
 	 *

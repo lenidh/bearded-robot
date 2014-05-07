@@ -51,6 +51,8 @@ public class Keyboard extends Task {
 
 	public static final int NUM_LOCK = 19;
 
+	public static final int BACKSPACE = 20;
+
 
 	// Flags-Werte von Modifizierungstasten
 
@@ -80,9 +82,9 @@ public class Keyboard extends Task {
 	private Layout layout = new Layout();
 
 	/**
-	 * Der Listener, der über eingehende Tastatur-Events benachrichtigt wird.
+	 * Die Listener, die über eingehende Tastatur-Events benachrichtigt werden.
 	 */
-	private KeyboardListener listener = null;
+	private KeyboardListener listenerRoot = null;
 
 	/**
 	 * Flags die den Zustand der Modifizierungstasten angeben.
@@ -105,13 +107,31 @@ public class Keyboard extends Task {
 		Interrupts.HANDLERS[33] = interruptHandler;
 	}
 
-	/**
-	 * Setzt den Listener.
-	 *
-	 * @param listener Listener
-	 */
-	public void setListener(KeyboardListener listener) {
-		this.listener = listener;
+	public void addListener(KeyboardListener listener) {
+		listener.next = this.listenerRoot;
+		this.listenerRoot = listener;
+	}
+
+	public void removeListener(KeyboardListener listener) {
+		if(this.listenerRoot == null) {
+			return;
+		}
+
+		if(this.listenerRoot == listener) {
+			this.listenerRoot = this.listenerRoot.next;
+			return;
+		}
+
+		KeyboardListener prev = this.listenerRoot;
+		KeyboardListener now = this.listenerRoot.next;
+		while (true) {
+			if(now == listener) {
+				prev.next = now.next;
+				return;
+			}
+			prev = now;
+			now = now.next;
+		}
 	}
 
 	/**
@@ -149,12 +169,14 @@ public class Keyboard extends Task {
 				}
 			}
 
-			if(listener != null) {
+			KeyboardListener listener = this.listenerRoot;
+			while(listener != null) {
 				if (isDown) {
 					listener.onKeyDown(value, keyCode, isChar, toggleFlags);
 				} else {
 					listener.onKeyUp(value, keyCode, isChar, toggleFlags);
 				}
+				listener = listener.next;
 			}
 		}
 	}

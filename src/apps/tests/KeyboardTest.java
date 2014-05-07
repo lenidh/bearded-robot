@@ -10,15 +10,22 @@ import video.Printer;
  */
 public class KeyboardTest extends Task {
 
+	private Listener listener = new Listener();
+
 	@Override
 	protected void onStart() {
 		Printer.directPrintString("[Shift] [Caps] [Ctrl] [Alt] [Return] [Backspace] [Tab] [Num]", 0, 0, Printer.WHITE, Printer.BLACK);
-		Keyboard.initstance().setListener(new Listener());
+		Keyboard.initstance().addListener(this.listener);
 	}
 
 	@Override
 	protected void onSchedule() {
 
+	}
+
+	@Override
+	protected void onStop() {
+		Keyboard.initstance().removeListener(this.listener);
 	}
 
 	private static class Listener extends KeyboardListener {
@@ -27,9 +34,6 @@ public class KeyboardTest extends Task {
 		public void onKeyDown(int value, int keyCode, boolean isChar, int flags) {
 			if (isChar) {
 				switch (value) {
-					case 8:
-						Printer.directPrintString("[Backspace]", 37, 0, Printer.BLACK, Printer.WHITE);
-						break;
 					case 9:
 						Printer.directPrintString("[Tab]", 49, 0, Printer.BLACK, Printer.WHITE);
 						break;
@@ -58,6 +62,9 @@ public class KeyboardTest extends Task {
 					case Keyboard.NUM_LOCK:
 						Printer.directPrintString("[Num]", 55, 0, Printer.BLACK, Printer.WHITE);
 						break;
+					case Keyboard.BACKSPACE:
+						Printer.directPrintString("[Backspace]", 37, 0, Printer.BLACK, Printer.WHITE);
+						break;
 				}
 			}
 		}
@@ -66,9 +73,6 @@ public class KeyboardTest extends Task {
 		public void onKeyUp(int value, int keyCode, boolean isChar, int flags) {
 			if (isChar) {
 				switch (value) {
-					case 8:
-						Printer.directPrintString("[Backspace]", 37, 0, Printer.WHITE, Printer.BLACK);
-						break;
 					case 9:
 						Printer.directPrintString("[Tab]", 49, 0, Printer.WHITE, Printer.BLACK);
 						break;
@@ -104,6 +108,9 @@ public class KeyboardTest extends Task {
 						} else {
 							Printer.directPrintString("[Num]", 55, 0, Printer.WHITE, Printer.BLACK);
 						}
+						break;
+					case Keyboard.BACKSPACE:
+						Printer.directPrintString("[Backspace]", 37, 0, Printer.WHITE, Printer.BLACK);
 						break;
 				}
 			}

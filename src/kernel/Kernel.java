@@ -1,6 +1,7 @@
 package kernel;
 
 import apps.BusyCrocodile;
+import apps.Editor;
 import apps.tests.KeyboardTest;
 import bios.BIOS;
 import dbg.Debugging;
@@ -38,11 +39,13 @@ public class Kernel {
 		Task crocodile = new BusyCrocodile();
 		Task keyboard = Keyboard.initstance();
 		Task kt = new KeyboardTest();
+		Task editor = new Editor();
 
 		Scheduler scheduler = new Scheduler();
 		scheduler.addTask(crocodile, true);
 		scheduler.addTask(keyboard, true);
 		scheduler.addTask(kt);
+		scheduler.addTask(editor);
 		scheduler.start();
 	}
 
