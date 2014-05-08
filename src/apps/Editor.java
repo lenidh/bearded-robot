@@ -6,27 +6,50 @@ import scheduling.Task;
 import timer.Timer;
 import video.Printer;
 
+/**
+ * Eine einfache Editoranwendung.
+ */
 public class Editor extends Task {
 
+	/**
+	 * Der Listener, welcher bei Tastatur-Events benachrichtigt wird.
+	 */
 	private Listener listener = new Listener(this);
 
+	/**
+	 * Printer zur Ausgabe des Editorinhalts.
+	 */
 	private Printer printer = new Printer();
 
+	/**
+	 * Der erste EditorChar des Editorinhalts.
+	 */
 	private final EditorChar firstChar = new EditorChar();
 
+	/**
+	 * Der letzte EditorChar des Editorinhalts.
+	 */
 	private EditorChar lastChar = firstChar;
 
+	/**
+	 * Der EditorChar des Editorinhalts, auf dem der Cursor steht.
+	 */
 	private EditorChar nowChar = firstChar;
 
+	/**
+	 * Gibt an, ob der Editor angezeigt wird.
+	 */
 	private boolean cursorState = false;
 
+	/**
+	 * Die Frequenz (in ms) mit der der Cursor blinkt.
+	 */
 	private int cursorDelay = 500;
 
+	/**
+	 * Gibt an, wann der cursorState zuletzt geändert wurde.
+	 */
 	private long lastChangedTime = 0;
-
-	private int oldCursorX = 0;
-
-	private int oldCursorY = 0;
 
 	@Override
 	protected void onStart() {
@@ -37,11 +60,13 @@ public class Editor extends Task {
 	protected void onSchedule() {
 		printer.setCursor(0, 2);
 
+		// Cursorzustand bestimmen
 		if(Timer.getUpTime() - lastChangedTime > cursorDelay) {
 			lastChangedTime = Timer.getUpTime();
 			cursorState = !cursorState;
 		}
 
+		// Zeichenausgabe
 		EditorChar c = firstChar;
 		while (c != null) {
 			if(c == nowChar) {
@@ -60,6 +85,7 @@ public class Editor extends Task {
 
 			c = c.next;
 		}
+		printer.setColor(Printer.WHITE, Printer.BLACK);
 	}
 
 	@Override
@@ -67,6 +93,9 @@ public class Editor extends Task {
 		Keyboard.initstance().removeListener(this.listener);
 	}
 
+	/**
+	 * Ein Listener, der zum Empfang von Tastatur-Events genutzt werden kann.
+	 */
 	private static class Listener extends KeyboardListener {
 
 		private Editor editor;
@@ -112,6 +141,9 @@ public class Editor extends Task {
 		}
 	}
 
+	/**
+	 * Ein char-Wrapper, der die doppelte Verkettung von chars ermöglicht.
+	 */
 	private static class EditorChar {
 		public EditorChar next;
 		public EditorChar previous;

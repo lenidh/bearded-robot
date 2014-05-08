@@ -31,6 +31,12 @@ public class Object {
 	 */
 	public final int _r_scalarSize = 0;
 
+	/**
+	 * Gibt an, ob ein Objekt markiert ist. 0 bedeutet "nicht markiert" alles
+	 * andere "markiert".
+	 */
+	public final int _selected = 0;
+
 	public String toString() {
 		return "[Object]";
 	}

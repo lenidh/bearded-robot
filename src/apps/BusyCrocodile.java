@@ -4,6 +4,9 @@ import scheduling.Task;
 import timer.Timer;
 import video.Printer;
 
+/**
+ * Anwendung, die einen, sich zeitlich ändernen, Indikator ausgibt.
+ */
 public class BusyCrocodile extends Task {
 
 	private int state = 0;

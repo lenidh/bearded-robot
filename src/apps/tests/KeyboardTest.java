@@ -15,6 +15,7 @@ public class KeyboardTest extends Task {
 	@Override
 	protected void onStart() {
 		Printer.directPrintString("[Shift] [Caps] [Ctrl] [Alt] [Return] [Backspace] [Tab] [Num]", 0, 0, Printer.WHITE, Printer.BLACK);
+		Printer.directPrintString("--------------------------------------------------------------------------------", 0, 1, Printer.WHITE, Printer.BLACK);
 		Keyboard.initstance().addListener(this.listener);
 	}
 

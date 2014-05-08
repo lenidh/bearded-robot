@@ -1,14 +1,26 @@
 package container;
 
+/**
+ * Stellt eine Ringpuffer bereit.
+ */
 public class RingBuffer {
 
+	/**
+	 * Einzelnes Pufferelement.
+	 */
 	private static class Element {
 		public Element next;
 		public Object value;
 	}
 
+	/**
+	 * Die Kapazität des Puffers.
+	 */
 	private int capacity = Integer.MAX_VALUE;
 
+	/**
+	 * Die Anzahl der Elemente im Puffer.
+	 */
 	private int size = 0;
 
 	private Element in = null;
@@ -30,6 +42,11 @@ public class RingBuffer {
 		return this.size;
 	}
 
+	/**
+	 * Fügt dem Puffer ein Element hinzu.
+	 *
+	 * @param value Ein Objekt, das im Puffer gespeichert werden soll.
+	 */
 	public void push(Object value) {
 		if(this.size < this.capacity) {
 			// Falls die Kapazität nicht ausgeschöpft ist, wird ein neues
@@ -59,6 +76,9 @@ public class RingBuffer {
 		}
 	}
 
+	/**
+	 * Löscht das erste Element.
+	 */
 	public void pop() {
 		if(this.size > 0) {
 			this.in.next = this.out.next;
@@ -67,6 +87,11 @@ public class RingBuffer {
 		}
 	}
 
+	/**
+	 * Liefert das erste Element.
+	 *
+	 * @return
+	 */
 	public Object front() {
 		if(this.size > 0) {
 			return this.out.value;
@@ -74,6 +99,9 @@ public class RingBuffer {
 		return null;
 	}
 
+	/**
+	 * Element überspringen.
+	 */
 	public void next() {
 		if(this.size > 0) {
 			this.in = this.out;

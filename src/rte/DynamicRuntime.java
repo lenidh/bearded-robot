@@ -6,6 +6,8 @@ package rte;
 @SuppressWarnings({"UnusedDeclaration", "SpellCheckingInspection", "JavaDoc"}) // TODO: JavaDoc
 public class DynamicRuntime {
 
+	static Object firstDynamicObject = null;
+
 	/**
 	 * Initialisiert die Laufzeitumgebung. Diese Methode muss explizit, einmalig
 	 * und vor allen anderen Methoden dieser Klasse aufgerufen werden.
@@ -41,7 +43,7 @@ public class DynamicRuntime {
 
 		// Berechne den benötigten Speicherplatz in 32 Bit Schritten.
 		int objSize = scalarSize + relocEntries * 4;
-		while (objSize % 4 != 0) objSize++;
+		//while (objSize % 4 != 0) objSize++;
 
 		// Reserviere Speicher
 		int instanceOffset = MemoryManager.allocate(objSize);
@@ -54,6 +56,9 @@ public class DynamicRuntime {
 		// Wandle den Speicherbereich in ein Objekt um, um damit einfacher
 		// arbeiten zu können.
 		Object obj = MAGIC.cast2Obj(instanceOffset + relocEntries * 4);
+		if(firstDynamicObject == null) {
+			firstDynamicObject = obj;
+		}
 
 		// Setze die Felder des Objekts.
 		MAGIC.assign(obj._r_scalarSize, scalarSize);

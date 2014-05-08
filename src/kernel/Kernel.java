@@ -5,6 +5,7 @@ import apps.Editor;
 import apps.tests.KeyboardTest;
 import bios.BIOS;
 import dbg.Debugging;
+import rte.GarbageCollector;
 import scheduling.Scheduler;
 import scheduling.Task;
 import interrupts.Interrupts;
@@ -26,6 +27,8 @@ public class Kernel {
 	 */
 	public static final int MEMORY_MAP_BUFFER_BASE = 0x7E80;
 
+	private static Scheduler scheduler;
+
 	@SuppressWarnings({"InfiniteLoopStatement", "StatementWithEmptyBody"})
 	public static void main() {
 		Printer.fillScreen(Printer.BLACK);
@@ -40,12 +43,14 @@ public class Kernel {
 		Task keyboard = Keyboard.initstance();
 		Task kt = new KeyboardTest();
 		Task editor = new Editor();
+		Task gc = new GarbageCollector();
 
-		Scheduler scheduler = new Scheduler();
+		scheduler = new Scheduler();
 		scheduler.addTask(crocodile, true);
 		scheduler.addTask(keyboard, true);
 		scheduler.addTask(kt);
 		scheduler.addTask(editor);
+		scheduler.addTask(gc);
 		scheduler.start();
 	}
 
