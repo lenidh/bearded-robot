@@ -38,6 +38,6 @@ public class Object {
 	public final int _selected = 0;
 
 	public String toString() {
-		return "[Object]";
+		return this._r_type.name;
 	}
 }
