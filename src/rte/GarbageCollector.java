@@ -36,6 +36,7 @@ public class GarbageCollector extends Task {
 			Object prev = null;
 			Object now = DynamicRuntime.firstDynamicObject;
 			while (now != null) {
+				//noinspection ConstantConditions
 				if(now._selected != 0 && prev != null) {
 					MAGIC.assign(prev._r_next, now._r_next);
 					Object tmp = now;
@@ -48,7 +49,22 @@ public class GarbageCollector extends Task {
 			}
 
 			// Versuche EmptyObjects zusammenzulegen.
-			MemoryManager.join();
+			//MemoryManager.join(); // TODO: Führt zu Problemen bei der Wiederbelegung von Speicher.
+
+			// Testcode zur Virtualisierung der EmptyObject-Liste.
+			/*EmptyObject tmp = MemoryManager.lastEmptyObject;
+			int i = 10;
+			while (tmp != null) {
+				int b = MAGIC.cast2Ref(tmp) - tmp._r_relocEntries * 4;
+				int e = MAGIC.cast2Ref(tmp) + tmp._r_scalarSize;
+				Printer.directPrintString("     ", 0, i, Printer.WHITE, Printer.BLACK);
+				Printer.directPrintInt(i - 10, 10, 0, 0, i, Printer.WHITE, Printer.BLACK);
+				Printer.directPrintInt(b, 10, 10, 5, i, Printer.WHITE, Printer.BLACK);
+				Printer.directPrintInt(e, 10, 10, 20, i, Printer.WHITE, Printer.BLACK);
+				tmp = (EmptyObject)tmp._r_next;
+				i++;
+				Printer.directPrintString("               ", 0, i, Printer.WHITE, Printer.BLACK);
+			}*/
 		}
 	}
 
@@ -59,6 +75,7 @@ public class GarbageCollector extends Task {
 		for(int i = 3; i <= obj._r_relocEntries; i++) {
 			int targetAddr = MAGIC.rMem32(ref - 4 * i);
 			Object target = MAGIC.cast2Obj(targetAddr);
+			//noinspection ConstantConditions
 			if(targetAddr >= this.imageTop && target._selected != 0) {
 				MAGIC.assign(target._selected, 0);
 				followRelocEntries(target);

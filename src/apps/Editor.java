@@ -1,5 +1,6 @@
 package apps;
 
+import bios.BIOS;
 import keyboard.Keyboard;
 import keyboard.KeyboardListener;
 import scheduling.Task;
@@ -36,21 +37,6 @@ public class Editor extends Task {
 	 */
 	private EditorChar nowChar = firstChar;
 
-	/**
-	 * Gibt an, ob der Editor angezeigt wird.
-	 */
-	private boolean cursorState = false;
-
-	/**
-	 * Die Frequenz (in ms) mit der der Cursor blinkt.
-	 */
-	private int cursorDelay = 500;
-
-	/**
-	 * Gibt an, wann der cursorState zuletzt geändert wurde.
-	 */
-	private long lastChangedTime = 0;
-
 	@Override
 	protected void onStart() {
 		Keyboard.initstance().addListener(this.listener);
@@ -60,21 +46,19 @@ public class Editor extends Task {
 	protected void onSchedule() {
 		printer.setCursor(0, 2);
 
-		// Cursorzustand bestimmen
-		if(Timer.getUpTime() - lastChangedTime > cursorDelay) {
-			lastChangedTime = Timer.getUpTime();
-			cursorState = !cursorState;
-		}
-
 		// Zeichenausgabe
 		EditorChar c = firstChar;
+		int i = 0;
 		while (c != null) {
 			if(c == nowChar) {
-				printer.setColor((cursorState) ? Printer.BLACK : Printer.WHITE,
-						(cursorState) ? Printer.WHITE : Printer.BLACK);
-			} else {
-				printer.setColor(Printer.WHITE, Printer.BLACK);
+				// Cursor setzen
+				BIOS.regs.EAX = 0x02 << 8;
+				BIOS.regs.EBX = 0;
+				BIOS.regs.EDX = (printer.getCursorY() << 8) | printer.getCursorX();
+
+				BIOS.rint(0x10);
 			}
+			printer.setColor(Printer.WHITE, Printer.BLACK);
 
 			if(c.value == '\n') {
 				printer.print(' ');
@@ -85,6 +69,7 @@ public class Editor extends Task {
 
 			c = c.next;
 		}
+
 		printer.setColor(Printer.WHITE, Printer.BLACK);
 	}
 

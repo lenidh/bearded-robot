@@ -49,8 +49,8 @@ public class DynamicRuntime {
 		int instanceOffset = MemoryManager.allocate(objSize);
 
 		// Initialisiere Speicher mit 0.
-		for (int i = instanceOffset; i < (objSize / 4); i++) {
-			MAGIC.wMem32(i, 0);
+		for (int i = instanceOffset; i < objSize; i++) {
+			MAGIC.wMem8(i, (byte)0);
 		}
 
 		// Wandle den Speicherbereich in ein Objekt um, um damit einfacher

@@ -187,6 +187,14 @@ public class Printer {
 		this.cursorPosition = (x % SCREEN_WIDTH) + SCREEN_WIDTH * (y % SCREEN_HEIGHT);
 	}
 
+	public int getCursorX() {
+		return this.cursorPosition % SCREEN_WIDTH;
+	}
+
+	public int getCursorY() {
+		return this.cursorPosition / SCREEN_WIDTH;
+	}
+
 	/**
 	 * Gibt ein Zeichen auf dem Bildschirm aus.
 	 *

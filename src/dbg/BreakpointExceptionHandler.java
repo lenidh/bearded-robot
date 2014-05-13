@@ -47,6 +47,6 @@ class BreakpointExceptionHandler extends InterruptHandler {
 
 	private void printLine(int line, String label, int value) {
 		Printer.directPrintString(label, 0, line, fg, bg);
-		Printer.directPrintInt(value, 16, 32, label.length(), line, fg, bg);
+		Printer.directPrintInt(value, 16, 8, label.length(), line, fg, bg);
 	}
 }
