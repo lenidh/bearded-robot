@@ -5,12 +5,12 @@ import bios.MemoryMapBuffer;
 import kernel.Kernel;
 import video.Printer;
 
-public class MemoryMapTest {
+public class MemoryMonitor {
 	public static void printFree() {
 		MemoryMapBuffer buffer = (MemoryMapBuffer)MAGIC.cast2Struct(Kernel.MEMORY_MAP_BUFFER_BASE);
 
 		Printer printer = new Printer();
-		printer.setCursor(0, 5);
+		printer.setCursor(0, 15);
 		printer.print("--------------------------------------------------------------------------------");
 		printer.println();
 		printer.println("Memory map:");

@@ -1,6 +1,7 @@
 package scheduling;
 
 import container.RingBuffer;
+import video.Printer;
 
 public class Scheduler {
 
@@ -10,7 +11,7 @@ public class Scheduler {
 		while (true) {
 			if(tasks.size() > 0) {
 				Task task = (Task)tasks.front();
-				if(task.isStopped) {
+				if(task.stopped) {
 					tasks.pop();
 				} else {
 					task.schedule();
@@ -25,7 +26,7 @@ public class Scheduler {
 	}
 
 	public void addTask(Task task, boolean sticky) {
-		task.isSticky = sticky;
+		task.sticky = sticky;
 		tasks.push(task);
 		task.start();
 	}

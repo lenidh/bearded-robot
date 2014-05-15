@@ -40,4 +40,8 @@ public class Object {
 	public String toString() {
 		return this._r_type.name;
 	}
+
+	public boolean equals(Object obj) {
+		return this == obj;
+	}
 }

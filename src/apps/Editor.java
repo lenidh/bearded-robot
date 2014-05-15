@@ -39,6 +39,12 @@ public class Editor extends Task {
 
 	@Override
 	protected void onStart() {
+		// Cursor anzeigen
+		BIOS.regs.EAX = 0x01 << 8;
+		BIOS.regs.ECX = 0x0007;
+
+		BIOS.rint(0x10);
+
 		Keyboard.initstance().addListener(this.listener);
 	}
 
@@ -76,6 +82,12 @@ public class Editor extends Task {
 	@Override
 	protected void onStop() {
 		Keyboard.initstance().removeListener(this.listener);
+
+		// Cursor ausblenden
+		BIOS.regs.EAX = 0x01 << 8;
+		BIOS.regs.ECX = 0x2607;
+
+		BIOS.rint(0x10);
 	}
 
 	/**
@@ -112,7 +124,7 @@ public class Editor extends Task {
 						if(this.editor.nowChar.previous != null) {
 							this.editor.nowChar.previous.value = this.editor.nowChar.value;
 							this.editor.nowChar.previous.next = this.editor.nowChar.next;
-							this.editor.nowChar.next.previous = this.editor.nowChar.previous;
+							if(this.editor.nowChar.next != null)this.editor.nowChar.next.previous = this.editor.nowChar.previous;
 							this.editor.nowChar = this.editor.nowChar.previous;
 						}
 						break;

@@ -2,10 +2,9 @@ package dbg;
 
 import interrupts.InterruptHandler;
 
-class BreakpointExceptionHandler extends InterruptHandler {
-
+public class PageFaultExceptionHandler extends InterruptHandler {
 	@Override
 	public void onInterrupt(int number, Integer errorCode) {
-		Bluescreen.show();
+		Bluescreen.show(errorCode);
 	}
 }

@@ -2,25 +2,33 @@ package scheduling;
 
 public abstract class Task {
 
-	boolean isStopped = false;
+	boolean stopped = true;
 
-	boolean isSticky = false;
+	boolean sticky = false;
 
 	void schedule() {
-		isStopped = false;
+		stopped = false;
 		onSchedule();
 	}
 
-	public final void start() {
-		isStopped = false;
+	final void start() {
+		stopped = false;
 		onStart();
 	}
 
 	public final void stop() {
-		if(!this.isSticky) {
+		if(!this.sticky) {
 			onStop();
-			isStopped = true;
+			stopped = true;
 		}
+	}
+
+	public final boolean isStopped() {
+		return this.stopped;
+	}
+
+	public final boolean isSticky() {
+		return this.sticky;
 	}
 
 	protected abstract void onSchedule();

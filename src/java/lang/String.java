@@ -12,4 +12,21 @@ public class String {
 	public char charAt(int i) {
 		return value[i];
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof String) {
+			String other = (String)obj;
+			if(this.count == other.count) {
+				for(int i = 0; i < this.count; i++) {
+					if(this.value[i] != other.value[i]) {
+						return false;
+					}
+				}
+
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

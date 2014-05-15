@@ -1,13 +1,14 @@
 package kernel;
 
 import apps.BusyCrocodile;
-import apps.Editor;
+import apps.Menu;
 import apps.tests.KeyboardTest;
 import bios.BIOS;
+import dbg.Bluescreen;
 import dbg.Debugging;
+import memory.VirtualMemory;
 import rte.GarbageCollector;
 import scheduling.Scheduler;
-import scheduling.Task;
 import interrupts.Interrupts;
 import keyboard.Keyboard;
 import rte.DynamicRuntime;
@@ -27,11 +28,13 @@ public class Kernel {
 	 */
 	public static final int MEMORY_MAP_BUFFER_BASE = 0x7E80;
 
-	private static Scheduler scheduler;
+
+	public static Scheduler scheduler;
 
 	@SuppressWarnings({"InfiniteLoopStatement", "StatementWithEmptyBody"})
 	public static void main() {
 		Printer.fillScreen(Printer.BLACK);
+		VirtualMemory.init();
 		DynamicRuntime.init();
 		Interrupts.init();
 		Timer.init();
@@ -39,18 +42,12 @@ public class Kernel {
 
 		Interrupts.enableIRQs();
 
-		Task crocodile = new BusyCrocodile();
-		Task keyboard = Keyboard.initstance();
-		Task kt = new KeyboardTest();
-		Task editor = new Editor();
-		Task gc = new GarbageCollector();
-
 		scheduler = new Scheduler();
-		scheduler.addTask(crocodile, true);
-		scheduler.addTask(keyboard, true);
-		scheduler.addTask(kt);
-		scheduler.addTask(editor);
-		scheduler.addTask(gc);
+		scheduler.addTask(new BusyCrocodile(), true);
+		scheduler.addTask(Keyboard.initstance(), true);
+		scheduler.addTask(new Menu(), true);
+		//scheduler.addTask(new KeyboardTest());
+		scheduler.addTask(new GarbageCollector(), true);
 		scheduler.start();
 	}
 
