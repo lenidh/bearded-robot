@@ -1,8 +1,8 @@
 package rte;
 
 import interrupts.Interrupts;
+import memory.Memory;
 import scheduling.Task;
-import video.Printer;
 
 public class GarbageCollector extends Task {
 
@@ -43,7 +43,7 @@ public class GarbageCollector extends Task {
 					MAGIC.assign(prev._r_next, now._r_next);
 					Object tmp = now;
 					now = now._r_next;
-					MemoryManager.free(tmp);
+					Memory.free(tmp);
 				} else {
 					prev = now;
 					now = now._r_next;
@@ -51,22 +51,8 @@ public class GarbageCollector extends Task {
 			}
 
 			// Versuche EmptyObjects zusammenzulegen.
-			//MemoryManager.join(); // TODO: Führt zu Problemen bei der Wiederbelegung von Speicher.
+			Memory.join();
 
-			// Testcode zur Virtualisierung der EmptyObject-Liste.
-			/*EmptyObject tmp = MemoryManager.lastEmptyObject;
-			int i = 10;
-			while (tmp != null) {
-				int b = MAGIC.cast2Ref(tmp) - tmp._r_relocEntries * 4;
-				int e = MAGIC.cast2Ref(tmp) + tmp._r_scalarSize;
-				Printer.directPrintString("     ", 0, i, Printer.WHITE, Printer.BLACK);
-				Printer.directPrintInt(i - 10, 10, 0, 0, i, Printer.WHITE, Printer.BLACK);
-				Printer.directPrintInt(b, 16, 8, 5, i, Printer.WHITE, Printer.BLACK);
-				Printer.directPrintInt(e, 16, 8, 20, i, Printer.WHITE, Printer.BLACK);
-				tmp = (EmptyObject)tmp._r_next;
-				i++;
-				Printer.directPrintString("               ", 0, i, Printer.WHITE, Printer.BLACK);
-			}*/
 			Interrupts.enableIRQs();
 		}
 	}

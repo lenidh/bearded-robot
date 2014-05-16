@@ -4,7 +4,6 @@ import bios.BIOS;
 import keyboard.Keyboard;
 import keyboard.KeyboardListener;
 import scheduling.Task;
-import timer.Timer;
 import video.Printer;
 
 /**
@@ -54,7 +53,6 @@ public class Editor extends Task {
 
 		// Zeichenausgabe
 		EditorChar c = firstChar;
-		int i = 0;
 		while (c != null) {
 			if(c == nowChar) {
 				// Cursor setzen

@@ -1,5 +1,7 @@
 package rte;
 
+import memory.Memory;
+
 /**
  * Stellt verschiedene Methoden bereit, die für die Laufzeitumgebung nötig sind.
  */
@@ -7,14 +9,6 @@ package rte;
 public class DynamicRuntime {
 
 	static Object firstDynamicObject = null;
-
-	/**
-	 * Initialisiert die Laufzeitumgebung. Diese Methode muss explizit, einmalig
-	 * und vor allen anderen Methoden dieser Klasse aufgerufen werden.
-	 */
-	public static void init() {
-		MemoryManager.init();
-	}
 
 	/**
 	 * Wird aufgerufen, wenn zur Laufzeit ein neues Objekt erzeugt werden soll.
@@ -41,21 +35,8 @@ public class DynamicRuntime {
 			lastObj = lastObj._r_next;
 		}
 
-		// Berechne den benötigten Speicherplatz in 32 Bit Schritten.
-		int objSize = scalarSize + relocEntries * 4;
-		//while (objSize % 4 != 0) objSize++;
-
 		// Reserviere Speicher
-		int instanceOffset = MemoryManager.allocate(objSize);
-
-		// Initialisiere Speicher mit 0.
-		for (int i = instanceOffset; i < objSize; i++) {
-			MAGIC.wMem8(i, (byte)0);
-		}
-
-		// Wandle den Speicherbereich in ein Objekt um, um damit einfacher
-		// arbeiten zu können.
-		Object obj = MAGIC.cast2Obj(instanceOffset + relocEntries * 4);
+		Object obj = Memory.allocate(relocEntries, scalarSize);
 		if(firstDynamicObject == null) {
 			firstDynamicObject = obj;
 		}

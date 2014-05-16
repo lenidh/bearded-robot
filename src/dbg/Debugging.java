@@ -4,13 +4,11 @@ import interrupts.Interrupts;
 
 public class Debugging {
 
-	private static BreakpointExceptionHandler breakpointHandler = new BreakpointExceptionHandler();
-
-	private static PageFaultExceptionHandler pageFaultHandler = new PageFaultExceptionHandler();
+	private static BluescreenExceptionHandler bluescreenHandler = new BluescreenExceptionHandler();
 
 	public static void init()
 	{
-		Interrupts.HANDLERS[3] = breakpointHandler;
-		Interrupts.HANDLERS[14] = pageFaultHandler;
+		Interrupts.HANDLERS[3] = bluescreenHandler;
+		Interrupts.HANDLERS[14] = bluescreenHandler;
 	}
 }

@@ -1,4 +1,4 @@
-package bios;
+package memory;
 
 public class MemoryMapBuffer extends STRUCT {
 	public long base;

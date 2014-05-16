@@ -1,13 +1,12 @@
 package scheduling;
 
 import container.RingBuffer;
-import video.Printer;
 
 public class Scheduler {
 
 	private RingBuffer tasks = new RingBuffer();
 
-	public void start() {
+	public void run() {
 		while (true) {
 			if(tasks.size() > 0) {
 				Task task = (Task)tasks.front();

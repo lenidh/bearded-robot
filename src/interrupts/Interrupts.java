@@ -1,6 +1,6 @@
 package interrupts;
 
-import kernel.Kernel;
+import memory.Memory;
 import video.Printer;
 
 /**
@@ -31,7 +31,7 @@ public class Interrupts {
 	/**
 	 * IDT des Protected Mode.
 	 */
-	public static final Idt IDT = (Idt)MAGIC.cast2Struct(Kernel.IDT_BASE);
+	public static final Idt IDT = (Idt)MAGIC.cast2Struct(Memory.IDT_BASE_ADDRESS);
 
 	/**
 	 * Limit der IDT.
@@ -148,7 +148,7 @@ public class Interrupts {
 				tmp = (long)1023;
 				break;
 			case IdtTypes.PROTECTED_MODE:
-				tmp = (((long)Kernel.IDT_BASE) << 16) | (long)IDT_LIMIT;
+				tmp = (((long)Memory.IDT_BASE_ADDRESS) << 16) | (long)IDT_LIMIT;
 				break;
 			default:
 				return;

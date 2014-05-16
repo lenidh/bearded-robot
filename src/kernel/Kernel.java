@@ -4,38 +4,25 @@ import apps.BusyCrocodile;
 import apps.Menu;
 import apps.tests.KeyboardTest;
 import bios.BIOS;
-import dbg.Bluescreen;
 import dbg.Debugging;
-import memory.VirtualMemory;
+import memory.Memory;
+import memory.MemoryMonitor;
 import rte.GarbageCollector;
 import scheduling.Scheduler;
 import interrupts.Interrupts;
 import keyboard.Keyboard;
-import rte.DynamicRuntime;
 import timer.Timer;
 import video.Printer;
 
 @SuppressWarnings("UnusedDeclaration")
 public class Kernel {
 
-	/**
-	 * Basisadresse der IDT.
-	 */
-	public static final int IDT_BASE = 0x7E00;
-
-	/**
-	 * Basisadresse des Puffers zum Auslesen der Speicherbereiche.
-	 */
-	public static final int MEMORY_MAP_BUFFER_BASE = 0x7E80;
-
-
 	public static Scheduler scheduler;
 
 	@SuppressWarnings({"InfiniteLoopStatement", "StatementWithEmptyBody"})
 	public static void main() {
 		Printer.fillScreen(Printer.BLACK);
-		VirtualMemory.init();
-		DynamicRuntime.init();
+		Memory.init();
 		Interrupts.init();
 		Timer.init();
 		Debugging.init();
@@ -47,8 +34,9 @@ public class Kernel {
 		scheduler.addTask(Keyboard.initstance(), true);
 		scheduler.addTask(new Menu(), true);
 		//scheduler.addTask(new KeyboardTest());
+		//scheduler.addTask(new MemoryMonitor());
 		scheduler.addTask(new GarbageCollector(), true);
-		scheduler.start();
+		scheduler.run();
 	}
 
 	// Phase 3b
