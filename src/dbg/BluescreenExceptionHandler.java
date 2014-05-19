@@ -8,6 +8,10 @@ import rte.SMthdBlock;
 import rte.SPackage;
 import video.Printer;
 
+/**
+ * Eine Implementierung von {@link interrupts.InterruptHandler}, die einen
+ * Bluescreen erzeugt.
+ */
 class BluescreenExceptionHandler extends InterruptHandler {
 
 	private static final int fg = Printer.WHITE;
@@ -24,7 +28,7 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		MAGIC.inline(0x89, 0x6D); MAGIC.inlineOffset(1, ebp); //mov [ebp+xx],ebp
 		ebp = MAGIC.rMem32(ebp); // Interrupt-Handler ausschließen
 
-		printNumber(number);
+		printNumber(number); // Interruptnummer ausgeben
 		printRegisters(ebp);
 		printStackTrace(ebp, errorCode);
 
@@ -33,6 +37,11 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		while (true);
 	}
 
+	/**
+	 * Gibt die Nummer eines Interrupts aus.
+	 *
+	 * @param number Die Interruptnummer.
+	 */
 	private static void printNumber(int number) {
 		int x = 0;
 		x += Printer.directPrintString("INTERRUPT: ", x, 0, fg, bg);
@@ -42,6 +51,11 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		Printer.directPrintChar(')', x, 0, fg, bg);
 	}
 
+	/**
+	 * Gibt, auf dem Stack gespeicherten, Registerwerte aus.
+	 *
+	 * @param ebp EBP-Adresse, welche den Stackframe identifiziert.
+	 */
 	private static void printRegisters(int ebp) {
 		PushAValues regs = (PushAValues)MAGIC.cast2Struct(ebp+4);
 
@@ -90,6 +104,12 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		Printer.directPrintInt(regs.edi, 16, 8, x, y, fg, bg);
 	}
 
+	/**
+	 * Erzeugt einen StackTrace für einen Stackframe.
+	 *
+	 * @param ebp EBP-Adresse, welche den Stackframe identifiziert.
+	 * @param errorCode Das Argument einer ISR.
+	 */
 	private static void printStackTrace(int ebp, Integer errorCode) {
 		int x = 0;
 		int y = 12;
@@ -114,6 +134,11 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		} while (mthdBlock != null && !"main()".equals(mthdBlock.namePar) && !"Kernel".equals(mthdBlock.owner.name));
 	}
 
+	/**
+	 * Gibt Informationen zu einem PageFault asu.
+	 *
+	 * @param arg Das Argument des PageFaults.
+	 */
 	private static void printPageFaultInfo(int arg) {
 		int x = 20;
 		int y = 2;
@@ -130,6 +155,14 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		Printer.directPrintInt(addr, 16, 8, x, y, fg, bg);
 	}
 
+	/**
+	 * Gibt den vollqualifizierten Namen eines {@link rte.SMthdBlock} aus.
+	 *
+	 * @param block Der {@link rte.SMthdBlock}, dessen Name ausgegeben werden
+	 *                 soll.
+	 * @param x Die Spalte, ab der geschrieben werden soll.
+	 * @param y Die Zeile, in der geschrieben werden soll.
+	 */
 	private static void printMthdBlock(SMthdBlock block, int x, int y) {
 		if(block == null) {
 			Printer.directPrintString("unknown", x, y, fg, bg);
@@ -149,10 +182,28 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		}
 	}
 
+	/**
+	 * Ermittelt den {@link rte.SMthdBlock} zu einer Instruktionsadresse.
+	 *
+	 * @param eip Die Adresse, zu welcher ein passender {@link rte.SMthdBlock}
+	 *               gesucht werden soll.
+	 * @return Der {@link rte.SMthdBlock}, in dessen Codebereich die Adresse
+	 *         liegt oder null, falls kein passender {@link rte.SMthdBlock}
+	 *         gefunden werden konnte.
+	 */
 	private static SMthdBlock EipToMthdBlock(int eip) {
 		return searchMthdBlockInPackage(SPackage.root, eip);
 	}
 
+	/**
+	 * Sucht in einem {@link rte.SPackage} nach einem {@link rte.SMthdBlock},
+	 * welcher zu der angegebenen Instruktionsadresse passt.
+	 *
+	 * @param pkg Das {@link rte.SPackage}, in dem gesucht wird.
+	 * @param eip Eine Instruktionsadresse.
+	 * @return Den zur Instruktionsadresse passenden {@link rte.SMthdBlock} oder
+	 * null, falls kein passender {@link rte.SMthdBlock} gefunden werden konnte.
+	 */
 	private static SMthdBlock searchMthdBlockInPackage(SPackage pkg, int eip) {
 		SMthdBlock block = null;
 
@@ -172,6 +223,15 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		return block;
 	}
 
+	/**
+	 * Sucht in einem {@link rte.SClassDesc} nach einem {@link rte.SMthdBlock},
+	 * welcher zu der angegebenen Instruktionsadresse passt.
+	 *
+	 * @param unit Das {@link rte.SClassDesc}, in dem gesucht wird.
+	 * @param eip Eine Instruktionsadresse.
+	 * @return Den zur Instruktionsadresse passenden {@link rte.SMthdBlock} oder
+	 * null, falls kein passender {@link rte.SMthdBlock} gefunden werden konnte.
+	 */
 	private static SMthdBlock searchMthdBlockInUnit(SClassDesc unit, int eip) {
 		SMthdBlock block = unit.mthds;
 		while (block != null) {

@@ -1,6 +1,7 @@
 package keyboard;
 
 import interrupts.InterruptHandler;
+import kernel.Kernel;
 
 class KeyboardInterruptHandler extends InterruptHandler {
 
@@ -18,15 +19,28 @@ class KeyboardInterruptHandler extends InterruptHandler {
 	/**
 	 * Die letzten byte-Werte.
 	 */
-	private int breakpointBuffer;
+	private int resentBuffer;
 
 	@Override
 	public void onInterrupt(int number, Integer errorCode) {
 		int b = MAGIC.rIOs8(0x60) & 0xFF; // vorzeichenlose Konvertierung
 
-		breakpointBuffer = ((breakpointBuffer << 8) | b) & 0xFFFFFF;
-		if(breakpointBuffer == 0x1D2A01 || breakpointBuffer == 0x2A1D01) {
+		// Breakpoint-Exception bei Strg+Schift+Esc
+		resentBuffer = ((resentBuffer << 8) | b) & 0xFFFFFF;
+		if(resentBuffer == 0x1D2A01 || resentBuffer == 0x2A1D01) {
 			MAGIC.inline(0xCC);
+		}
+
+		// Aktuellen Task abbrechen und Scheduler zurücksetzen
+		if((resentBuffer & 0xFFFF) == 0x1D01 && Kernel.scheduler != null) {
+			// EBP vom ISR ermitteln
+			int ebp=0;
+			MAGIC.inline(0x89, 0x6D); MAGIC.inlineOffset(1, ebp); //mov [ebp+xx],ebp
+			ebp = MAGIC.rMem32(ebp); // Interrupt-Handler ausschließen
+
+			Kernel.scheduler.stopCurrent();
+			Kernel.scheduler.reset(ebp);
+			return;
 		}
 
 		if(remaining > 0) {

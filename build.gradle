@@ -11,7 +11,7 @@ if(file("user.gradle").exists()) {
 task build << {
     exec {
         workingDir "sjc"
-        commandLine "java", "-jar", "sjc.jar", "../src/", "-o",  "boot", "-u", "rte", "-Q"
+        commandLine "java", "-jar", "sjc.jar", "../src/", "-o",  "boot", "-u", "rte", "-Q", "-g"
     }
 }
 

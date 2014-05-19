@@ -1,5 +1,6 @@
 package apps;
 
+import apps.tests.NonCooperativeTask;
 import apps.tests.VirtualMemoryTest;
 import kernel.Kernel;
 import keyboard.Keyboard;
@@ -13,7 +14,7 @@ public class Menu extends Task {
 
 	private Task f2Task = new VirtualMemoryTest();
 
-	private Task f3Task;
+	private Task f3Task = new NonCooperativeTask();
 
 	private Task f4Task;
 
