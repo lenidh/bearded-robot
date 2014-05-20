@@ -21,7 +21,7 @@ public class Interrupts {
 		 */
 		@SuppressWarnings({"InfiniteLoopStatement", "StatementWithEmptyBody"})
 		@Override
-		public void onInterrupt(int number, Integer errorCode) {
+		public void onInterrupt(int number, boolean hasErrorCode, int errorCode) {
 			Printer.directPrintString("Interrupt:", 0, 24, Printer.WHITE, Printer.BLACK);
 			Printer.directPrintInt(number, 10, 0, 11, 24, Printer.WHITE, Printer.BLACK);
 			while (true);
@@ -183,7 +183,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr0() {
 		Interrupts.disableIRQs();
-		HANDLERS[0].onInterrupt(0, null);
+		HANDLERS[0].onInterrupt(0, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -191,7 +191,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr1() {
 		Interrupts.disableIRQs();
-		HANDLERS[1].onInterrupt(1, null);
+		HANDLERS[1].onInterrupt(1, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -199,7 +199,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr2() {
 		Interrupts.disableIRQs();
-		HANDLERS[2].onInterrupt(2, null);
+		HANDLERS[2].onInterrupt(2, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -207,7 +207,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr3() {
 		Interrupts.disableIRQs();
-		HANDLERS[3].onInterrupt(3, null);
+		HANDLERS[3].onInterrupt(3, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -215,7 +215,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr4() {
 		Interrupts.disableIRQs();
-		HANDLERS[4].onInterrupt(4, null);
+		HANDLERS[4].onInterrupt(4, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -223,7 +223,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr5() {
 		Interrupts.disableIRQs();
-		HANDLERS[5].onInterrupt(5, null);
+		HANDLERS[5].onInterrupt(5, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -231,7 +231,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr6() {
 		Interrupts.disableIRQs();
-		HANDLERS[6].onInterrupt(6, null);
+		HANDLERS[6].onInterrupt(6, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -239,7 +239,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr7() {
 		Interrupts.disableIRQs();
-		HANDLERS[7].onInterrupt(7, null);
+		HANDLERS[7].onInterrupt(7, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -247,7 +247,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr8(int arg) {
 		Interrupts.disableIRQs();
-		HANDLERS[8].onInterrupt(8, new Integer(arg));
+		HANDLERS[8].onInterrupt(8, true, arg);
 		Interrupts.enableIRQs();
 	}
 
@@ -255,7 +255,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr9() {
 		Interrupts.disableIRQs();
-		HANDLERS[9].onInterrupt(9, null);
+		HANDLERS[9].onInterrupt(9, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -263,7 +263,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr10(int arg) {
 		Interrupts.disableIRQs();
-		HANDLERS[10].onInterrupt(10, new Integer(arg));
+		HANDLERS[10].onInterrupt(10, true, arg);
 		Interrupts.enableIRQs();
 	}
 
@@ -271,7 +271,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr11(int arg) {
 		Interrupts.disableIRQs();
-		HANDLERS[11].onInterrupt(11, new Integer(arg));
+		HANDLERS[11].onInterrupt(11, true, arg);
 		Interrupts.enableIRQs();
 	}
 
@@ -279,7 +279,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr12(int arg) {
 		Interrupts.disableIRQs();
-		HANDLERS[12].onInterrupt(12, new Integer(arg));
+		HANDLERS[12].onInterrupt(12, true, arg);
 		Interrupts.enableIRQs();
 	}
 
@@ -287,7 +287,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr13(int arg) {
 		Interrupts.disableIRQs();
-		HANDLERS[13].onInterrupt(13, new Integer(arg));
+		HANDLERS[13].onInterrupt(13, true, arg);
 		Interrupts.enableIRQs();
 	}
 
@@ -295,7 +295,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr14(int arg) {
 		Interrupts.disableIRQs();
-		HANDLERS[14].onInterrupt(14, new Integer(arg));
+		HANDLERS[14].onInterrupt(14, true, arg);
 		Interrupts.enableIRQs();
 	}
 
@@ -303,7 +303,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr15() {
 		Interrupts.disableIRQs();
-		HANDLERS[15].onInterrupt(15, null);
+		HANDLERS[15].onInterrupt(15, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -311,7 +311,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr16() {
 		Interrupts.disableIRQs();
-		HANDLERS[16].onInterrupt(16, null);
+		HANDLERS[16].onInterrupt(16, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -319,7 +319,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr17() {
 		Interrupts.disableIRQs();
-		HANDLERS[17].onInterrupt(17, null);
+		HANDLERS[17].onInterrupt(17, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -327,7 +327,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr18() {
 		Interrupts.disableIRQs();
-		HANDLERS[18].onInterrupt(18, null);
+		HANDLERS[18].onInterrupt(18, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -335,7 +335,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr19() {
 		Interrupts.disableIRQs();
-		HANDLERS[19].onInterrupt(19, null);
+		HANDLERS[19].onInterrupt(19, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -343,7 +343,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr20() {
 		Interrupts.disableIRQs();
-		HANDLERS[20].onInterrupt(20, null);
+		HANDLERS[20].onInterrupt(20, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -351,7 +351,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr21() {
 		Interrupts.disableIRQs();
-		HANDLERS[21].onInterrupt(21, null);
+		HANDLERS[21].onInterrupt(21, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -359,7 +359,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr22() {
 		Interrupts.disableIRQs();
-		HANDLERS[22].onInterrupt(22, null);
+		HANDLERS[22].onInterrupt(22, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -367,7 +367,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr23() {
 		Interrupts.disableIRQs();
-		HANDLERS[23].onInterrupt(23, null);
+		HANDLERS[23].onInterrupt(23, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -375,7 +375,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr24() {
 		Interrupts.disableIRQs();
-		HANDLERS[24].onInterrupt(24, null);
+		HANDLERS[24].onInterrupt(24, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -383,7 +383,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr25() {
 		Interrupts.disableIRQs();
-		HANDLERS[25].onInterrupt(25, null);
+		HANDLERS[25].onInterrupt(25, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -391,7 +391,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr26() {
 		Interrupts.disableIRQs();
-		HANDLERS[26].onInterrupt(26, null);
+		HANDLERS[26].onInterrupt(26, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -399,7 +399,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr27() {
 		Interrupts.disableIRQs();
-		HANDLERS[27].onInterrupt(27, null);
+		HANDLERS[27].onInterrupt(27, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -407,7 +407,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr28() {
 		Interrupts.disableIRQs();
-		HANDLERS[28].onInterrupt(28, null);
+		HANDLERS[28].onInterrupt(28, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -415,7 +415,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr29() {
 		Interrupts.disableIRQs();
-		HANDLERS[29].onInterrupt(29, null);
+		HANDLERS[29].onInterrupt(29, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -423,7 +423,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr30() {
 		Interrupts.disableIRQs();
-		HANDLERS[30].onInterrupt(30, null);
+		HANDLERS[30].onInterrupt(30, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -431,7 +431,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr31() {
 		Interrupts.disableIRQs();
-		HANDLERS[31].onInterrupt(31, null);
+		HANDLERS[31].onInterrupt(31, false, 0);
 		Interrupts.enableIRQs();
 	}
 
@@ -439,7 +439,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr32() {
 		Interrupts.disableIRQs();
-		HANDLERS[32].onInterrupt(32, null);
+		HANDLERS[32].onInterrupt(32, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		Interrupts.enableIRQs();
 	}
@@ -448,7 +448,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr33() {
 		Interrupts.disableIRQs();
-		HANDLERS[33].onInterrupt(33, null);
+		HANDLERS[33].onInterrupt(33, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		Interrupts.enableIRQs();
 	}
@@ -457,7 +457,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr34() {
 		Interrupts.disableIRQs();
-		HANDLERS[34].onInterrupt(34, null);
+		HANDLERS[34].onInterrupt(34, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		Interrupts.enableIRQs();
 	}
@@ -466,7 +466,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr35() {
 		Interrupts.disableIRQs();
-		HANDLERS[35].onInterrupt(35, null);
+		HANDLERS[35].onInterrupt(35, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		Interrupts.enableIRQs();
 	}
@@ -475,7 +475,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr36() {
 		Interrupts.disableIRQs();
-		HANDLERS[36].onInterrupt(36, null);
+		HANDLERS[36].onInterrupt(36, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		Interrupts.enableIRQs();
 	}
@@ -484,7 +484,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr37() {
 		Interrupts.disableIRQs();
-		HANDLERS[37].onInterrupt(37, null);
+		HANDLERS[37].onInterrupt(37, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		Interrupts.enableIRQs();
 	}
@@ -493,7 +493,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr38() {
 		Interrupts.disableIRQs();
-		HANDLERS[38].onInterrupt(38, null);
+		HANDLERS[38].onInterrupt(38, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		Interrupts.enableIRQs();
 	}
@@ -502,7 +502,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr39() {
 		Interrupts.disableIRQs();
-		HANDLERS[39].onInterrupt(39, null);
+		HANDLERS[39].onInterrupt(39, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		Interrupts.enableIRQs();
 	}
@@ -511,7 +511,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr40() {
 		Interrupts.disableIRQs();
-		HANDLERS[40].onInterrupt(40, null);
+		HANDLERS[40].onInterrupt(40, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		MAGIC.wIOs8(Pics.SLAVE, (byte)0x20);
 		Interrupts.enableIRQs();
@@ -521,7 +521,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr41() {
 		Interrupts.disableIRQs();
-		HANDLERS[41].onInterrupt(41, null);
+		HANDLERS[41].onInterrupt(41, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		MAGIC.wIOs8(Pics.SLAVE, (byte)0x20);
 		Interrupts.enableIRQs();
@@ -531,7 +531,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr42() {
 		Interrupts.disableIRQs();
-		HANDLERS[42].onInterrupt(42, null);
+		HANDLERS[42].onInterrupt(42, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		MAGIC.wIOs8(Pics.SLAVE, (byte)0x20);
 		Interrupts.enableIRQs();
@@ -541,7 +541,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr43() {
 		Interrupts.disableIRQs();
-		HANDLERS[43].onInterrupt(43, null);
+		HANDLERS[43].onInterrupt(43, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		MAGIC.wIOs8(Pics.SLAVE, (byte)0x20);
 		Interrupts.enableIRQs();
@@ -551,7 +551,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr44() {
 		Interrupts.disableIRQs();
-		HANDLERS[44].onInterrupt(44, null);
+		HANDLERS[44].onInterrupt(44, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		MAGIC.wIOs8(Pics.SLAVE, (byte)0x20);
 		Interrupts.enableIRQs();
@@ -561,7 +561,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr45() {
 		Interrupts.disableIRQs();
-		HANDLERS[45].onInterrupt(45, null);
+		HANDLERS[45].onInterrupt(45, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		MAGIC.wIOs8(Pics.SLAVE, (byte)0x20);
 		Interrupts.enableIRQs();
@@ -571,7 +571,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr46() {
 		Interrupts.disableIRQs();
-		HANDLERS[46].onInterrupt(46, null);
+		HANDLERS[46].onInterrupt(46, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		MAGIC.wIOs8(Pics.SLAVE, (byte)0x20);
 		Interrupts.enableIRQs();
@@ -581,7 +581,7 @@ public class Interrupts {
 	@SJC.Interrupt
 	public static void isr47() {
 		Interrupts.disableIRQs();
-		HANDLERS[47].onInterrupt(47, null);
+		HANDLERS[47].onInterrupt(47, false, 0);
 		MAGIC.wIOs8(Pics.MASTER, (byte)0x20);
 		MAGIC.wIOs8(Pics.SLAVE, (byte)0x20);
 		Interrupts.enableIRQs();

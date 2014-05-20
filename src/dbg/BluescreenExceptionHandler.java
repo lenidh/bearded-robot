@@ -19,7 +19,7 @@ class BluescreenExceptionHandler extends InterruptHandler {
 	private static final int bg = Printer.BLUE;
 
 	@Override
-	public void onInterrupt(int number, Integer errorCode) {
+	public void onInterrupt(int number, boolean hasErrorCode, int errorCode) {
 		Interrupts.disableIRQs();
 
 		Printer.fillScreen(bg);
@@ -30,9 +30,9 @@ class BluescreenExceptionHandler extends InterruptHandler {
 
 		printNumber(number); // Interruptnummer ausgeben
 		printRegisters(ebp);
-		printStackTrace(ebp, errorCode);
+		printStackTrace(ebp, hasErrorCode);
 
-		if(number == 14 && errorCode != null) printPageFaultInfo(errorCode.intValue());
+		if(number == 14 && hasErrorCode) printPageFaultInfo(errorCode);
 
 		while (true);
 	}
@@ -108,9 +108,9 @@ class BluescreenExceptionHandler extends InterruptHandler {
 	 * Erzeugt einen StackTrace für einen Stackframe.
 	 *
 	 * @param ebp EBP-Adresse, welche den Stackframe identifiziert.
-	 * @param errorCode Das Argument einer ISR.
+	 * @param hasErrorCode Ob der ISR einen Fehlercode mitliefert.
 	 */
-	private static void printStackTrace(int ebp, Integer errorCode) {
+	private static void printStackTrace(int ebp, boolean hasErrorCode) {
 		int x = 0;
 		int y = 12;
 
@@ -121,7 +121,7 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		SMthdBlock mthdBlock = null;
 		do {
 			if(MAGIC.rMem32(ebp) == MAGIC.rMem32(ebp + 12)) { // falls ISR
-				eip = MAGIC.rMem32(ebp + (errorCode != null ? 40 : 36)); // mit oder ohne Parameter
+				eip = MAGIC.rMem32(ebp + (hasErrorCode ? 40 : 36)); // mit oder ohne Parameter
 			} else {
 				eip = MAGIC.rMem32(ebp + 4);
 			}

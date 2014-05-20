@@ -8,7 +8,7 @@ public class TimerInterruptHandler extends InterruptHandler {
 	}
 
 	@Override
-	public void onInterrupt(int number, Integer errorCode) {
+	public void onInterrupt(int number, boolean hasErrorCode, int errorCode) {
 		Timer.upTime++;
 	}
 }

@@ -22,7 +22,7 @@ class KeyboardInterruptHandler extends InterruptHandler {
 	private int resentBuffer;
 
 	@Override
-	public void onInterrupt(int number, Integer errorCode) {
+	public void onInterrupt(int number, boolean hasErrorCode, int errorCode) {
 		int b = MAGIC.rIOs8(0x60) & 0xFF; // vorzeichenlose Konvertierung
 
 		// Breakpoint-Exception bei Strg+Schift+Esc
