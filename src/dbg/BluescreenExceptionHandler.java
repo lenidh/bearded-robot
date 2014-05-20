@@ -120,13 +120,17 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		int eip = 0;
 		SMthdBlock mthdBlock = null;
 		do {
-			if(MAGIC.rMem32(ebp) == MAGIC.rMem32(ebp + 12)) {
-				eip = MAGIC.rMem32(ebp + (errorCode != null ? 40 : 36));
+			if(MAGIC.rMem32(ebp) == MAGIC.rMem32(ebp + 12)) { // falls ISR
+				eip = MAGIC.rMem32(ebp + (errorCode != null ? 40 : 36)); // mit oder ohne Parameter
 			} else {
 				eip = MAGIC.rMem32(ebp + 4);
 			}
 			ebp = MAGIC.rMem32(ebp);
+
+			// Ermittle SMthdBlock zu EIP.
 			mthdBlock = EipToMthdBlock(eip);
+
+			// Ausgabe
 			x = Printer.directPrintString("0x", 0, y, fg, bg);
 			x += Printer.directPrintInt(eip, 16, 8, x, y, fg, bg);
 			x += Printer.directPrintString(": ", x, y, fg, bg);
@@ -144,15 +148,29 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		int y = 2;
 
 		Printer.directPrintString("Page Fault:", x, y++, fg, bg);
-		if(arg == 1) {
-			Printer.directPrintString("Not Present", x, y++, fg, bg);
-		} else {
-			Printer.directPrintString("Not Writable", x, y++, fg, bg);
+		switch (arg) {
+			case 0:
+				Printer.directPrintString("Tried to read a non-present page entry.",
+						x, y++, fg, bg);
+				break;
+			case 1:
+				Printer.directPrintString("Tried to read a page and caused a protection fault.",
+						x, y++, fg, bg);
+				break;
+			case 2:
+				Printer.directPrintString("Tried to write to a non-present page entry.",
+						x, y++, fg, bg);
+				break;
+			case 3:
+				Printer.directPrintString("Tried to write a page and caused a protection fault.",
+						x, y++, fg, bg);
+				break;
 		}
+
 		int cr2 = Memory.getCR2();
 		int addr = cr2 & 0xFFFFF000;
-		x += Printer.directPrintString("Address=", x, y, fg, bg);
-		Printer.directPrintInt(addr, 16, 8, x, y, fg, bg);
+		x += Printer.directPrintString("Page Address=", x, y, fg, bg);
+		Printer.directPrintInt(addr, 21, 8, x, y, fg, bg);
 	}
 
 	/**
