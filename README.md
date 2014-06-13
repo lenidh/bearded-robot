@@ -13,7 +13,7 @@
 1. Download SJC.
 2. Place SJC files in a directory sjc in the project root.
 3. Install QEMU.
-4. Perhaps your have add qemu-system-i386 to your PATH.
+4. Perhaps your have to add qemu-system-i386 to your PATH.
 
 
 ### Run
