@@ -1,5 +1,6 @@
 package dbg;
 
+import bios.BIOS;
 import interrupts.InterruptHandler;
 import interrupts.Interrupts;
 import memory.Memory;
@@ -21,6 +22,10 @@ class BluescreenExceptionHandler extends InterruptHandler {
 	@Override
 	public void onInterrupt(int number, boolean hasErrorCode, int errorCode) {
 		Interrupts.disableIRQs();
+
+		// Zurück in den Textmodus wechseln
+		BIOS.regs.EAX = 0x0003;
+		BIOS.rint(0x10);
 
 		Printer.fillScreen(bg);
 
