@@ -16,12 +16,16 @@ public class Scheduler {
 
 	private static int cpEsi = 0;
 
-	public void run() {
+	public void start() {
 		MAGIC.inline(0x89, 0x2D); MAGIC.inlineOffset(4, cpEbp); //mov [addr(v1)],ebp
 		MAGIC.inline(0x89, 0x25); MAGIC.inlineOffset(4, cpEsp); //mov [addr(v1)],esp
 		MAGIC.inline(0x89, 0x35); MAGIC.inlineOffset(4, cpEsi); //mov [addr(v1)],esi
 		MAGIC.inline(0x89, 0x3D); MAGIC.inlineOffset(4, cpEdi); //mov [addr(v1)],edi
 
+		run();
+	}
+
+	private void run() {
 		while (true) {
 			if(tasks.size() > 0) {
 				this.currentTask = (Task)tasks.front();

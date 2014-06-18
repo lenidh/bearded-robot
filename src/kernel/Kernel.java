@@ -36,7 +36,7 @@ public class Kernel {
 		//scheduler.addTask(new KeyboardTest());
 		//scheduler.addTask(new MemoryMonitor());
 		scheduler.addTask(new GarbageCollector(), true);
-		scheduler.run();
+		scheduler.start();
 	}
 
 	// Phase 3b
