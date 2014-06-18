@@ -120,7 +120,7 @@ class BluescreenExceptionHandler extends InterruptHandler {
 		int eip = 0;
 		SMthdBlock mthdBlock = null;
 		do {
-			if(MAGIC.rMem32(ebp) == MAGIC.rMem32(ebp + 12)) { // falls ISR
+			if(MAGIC.rMem32(ebp) == MAGIC.rMem32(ebp + 12) && MAGIC.rMem32(ebp) != 0) { // falls ISR
 				eip = MAGIC.rMem32(ebp + (hasErrorCode ? 40 : 36)); // mit oder ohne Parameter
 			} else {
 				eip = MAGIC.rMem32(ebp + 4);
