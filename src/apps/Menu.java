@@ -2,6 +2,7 @@ package apps;
 
 import apps.tests.NonCooperativeTask;
 import apps.tests.VirtualMemoryTest;
+import apps.tetris.Tetris;
 import kernel.Kernel;
 import keyboard.Keyboard;
 import keyboard.KeyboardListener;
@@ -16,7 +17,7 @@ public class Menu extends Task {
 
 	private Task f3Task = new NonCooperativeTask();
 
-	private Task f4Task;
+	private Task f4Task = new Tetris();
 
 	private Task f5Task;
 

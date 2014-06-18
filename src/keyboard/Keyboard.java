@@ -53,6 +53,14 @@ public class Keyboard extends Task {
 
 	public static final int BACKSPACE = 20;
 
+	public static final int UP = 21;
+
+	public static final int DOWN = 22;
+
+	public static final int LEFT = 23;
+
+	public static final int RIGHT = 24;
+
 
 	// Flags-Werte von Modifizierungstasten
 
