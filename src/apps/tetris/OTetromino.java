@@ -2,7 +2,8 @@ package apps.tetris;
 
 public class OTetromino extends Tetromino {
 
-	public OTetromino() {
+	public OTetromino(byte color) {
+		super(color);
 		this.squares[0] = new Square(0, 0);
 		this.squares[1] = new Square(-1, 0);
 		this.squares[2] = new Square(0, -1);

@@ -1,51 +1,50 @@
 package apps.tetris;
 
+import java.util.Random;
+
 public abstract class Tetromino {
+
+	private static Random random = null;
 
 	protected final Square[] squares = new Square[4];
 
-	private static int type = 0;
+	private byte color;
 
 	public static Tetromino create() {
+		if(random == null) random = new Random();
+
 		Tetromino tetromino = null;
-		switch (type) {
+		switch (random.nextInt(7)) {
 			case 0:
-				tetromino = new ITetromino();
+				tetromino = new ITetromino((byte)(0x20 + random.nextInt(0x48)));
 				break;
 			case 1:
-				tetromino = new JTetromino();
+				tetromino = new JTetromino((byte)(0x20 + random.nextInt(0x48)));
 				break;
 			case 2:
-				tetromino = new LTetromino();
+				tetromino = new LTetromino((byte)(0x20 + random.nextInt(0x48)));
 				break;
 			case 3:
-				tetromino = new OTetromino();
+				tetromino = new OTetromino((byte)(0x20 + random.nextInt(0x48)));
 				break;
 			case 4:
-				tetromino = new STetromino();
+				tetromino = new STetromino((byte)(0x20 + random.nextInt(0x48)));
 				break;
 			case 5:
-				tetromino = new TTetromino();
+				tetromino = new TTetromino((byte)(0x20 + random.nextInt(0x48)));
 				break;
 			case 6:
-				tetromino = new ZTetromino();
+				tetromino = new ZTetromino((byte)(0x20 + random.nextInt(0x48)));
 				break;
 		}
-		type = ++type % 7;
 		return tetromino;
 	}
 
-	protected Tetromino() { }
-
-	public void rotate() {
-		for(int i = 0; i < squares.length; i++) {
-			int tmp = this.squares[i].x;
-			MAGIC.assign(this.squares[i].x, this.squares[i].y);
-			MAGIC.assign(this.squares[i].y, tmp * -1);
-		}
+	protected Tetromino(byte color) {
+		this.color = color;
 	}
 
-	public void rotateLeft() {
+	public void rotate() {
 		for(int i = 0; i < squares.length; i++) {
 			int tmp = this.squares[i].x;
 			MAGIC.assign(this.squares[i].x, this.squares[i].y);
@@ -58,6 +57,6 @@ public abstract class Tetromino {
 	}
 
 	public byte color() {
-		return (byte)0xbf;
+		return this.color;
 	}
 }
