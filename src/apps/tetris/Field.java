@@ -38,7 +38,7 @@ public class Field {
 		for(int i = 0; i < this.height; i++) {
 			Row row = (Row)this.rows.get(i);
 			if(row.left() <= 0) {
-				this.rows.remove(i);
+				this.rows.remove(i--);
 				this.rows.append(new Row(this.width));
 				count++;
 			}

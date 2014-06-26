@@ -370,6 +370,14 @@ class Layout {
 				return Keyboard.F11;
 			case 88:
 				return Keyboard.F12;
+			case 57416:
+				return Keyboard.UP;
+			case 57424:
+				return Keyboard.DOWN;
+			case 57419:
+				return Keyboard.LEFT;
+			case 57421:
+				return Keyboard.RIGHT;
 		}
 
 		return Keyboard.UNSPECIFIED;
