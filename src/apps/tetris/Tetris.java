@@ -96,7 +96,7 @@ public class Tetris extends Task {
 		}
 
 		// Automatischer Fall des Tetromino
-		if(Timer.getUpTime() - this.lastChangedTime > Delay) {
+		if((Timer.getUpTime() - this.lastChangedTime) > (Delay - (this.level - 1) * 5)) {
 			this.lastChangedTime = Timer.getUpTime();
 			stepDown();
 		}
@@ -248,10 +248,48 @@ public class Tetris extends Task {
 			for (int i = 0; i < squares.length; i++) {
 				int x = this.tetrominoX + squares[i].x;
 				int y = this.tetrominoY + squares[i].y;
+				// Prüfe, ob im Feld
 				if(y < YSquareNumber) this.field.set(x, y, tetromino.color());
 				else this.isGameOver = true;
 			}
 			this.currentTetromino = null;
+		}
+	}
+
+	private static class Listener extends KeyboardListener {
+
+		private Tetris tetris;
+
+		public Listener(Tetris tetris) {
+			this.tetris = tetris;
+		}
+
+		@Override
+		public void onKeyDown(int value, int keyCode, boolean isChar, int flags) {
+			if (!isChar) {
+				switch (value) {
+					case Keyboard.DOWN:
+						if(this.tetris.stepDown()) {
+							this.tetris.score++;
+						}
+						break;
+					case Keyboard.LEFT:
+						this.tetris.stepLeft();
+						break;
+					case Keyboard.RIGHT:
+						this.tetris.stepRight();
+						break;
+					case Keyboard.UP:
+						this.tetris.rotate();
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
+		@Override
+		public void onKeyUp(int value, int keyCode, boolean isChar, int flags) {
 		}
 	}
 
@@ -264,7 +302,7 @@ public class Tetris extends Task {
 	private void draw0(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 || j >= 20 || i < 5 || i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 || j >= 20 || i < 5 || i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -272,9 +310,9 @@ public class Tetris extends Task {
 	private void draw1(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(i >= 5 && i < 10) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 20) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(i >= 5 && i < 10) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 20) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -282,10 +320,10 @@ public class Tetris extends Task {
 	private void draw2(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j < 10 && i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 15 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j < 10 && i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 15 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -293,9 +331,9 @@ public class Tetris extends Task {
 	private void draw3(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -303,9 +341,9 @@ public class Tetris extends Task {
 	private void draw4(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 10 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 10 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -313,10 +351,10 @@ public class Tetris extends Task {
 	private void draw5(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 15 && i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j < 10 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 15 && i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j < 10 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -324,10 +362,10 @@ public class Tetris extends Task {
 	private void draw6(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 15 && i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(i < 5) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 15 && i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(i < 5) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -335,7 +373,7 @@ public class Tetris extends Task {
 	private void draw7(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 || i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 || i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -343,8 +381,8 @@ public class Tetris extends Task {
 	private void draw8(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 || j >= 20 || i < 5 || i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 || j >= 20 || i < 5 || i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -352,10 +390,10 @@ public class Tetris extends Task {
 	private void draw9(int x, int y) {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {
-				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(i >= 10) this.pixelCache[x+i][y+j] = (byte)0x72;
-				if(j < 10 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x72;
+				if(j < 5 || j >= 20) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j >= 10 && j < 15) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(i >= 10) this.pixelCache[x+i][y+j] = (byte)0x28;
+				if(j < 10 && i < 5) this.pixelCache[x+i][y+j] = (byte)0x28;
 			}
 		}
 	}
@@ -435,34 +473,34 @@ public class Tetris extends Task {
 				if(j >= 20 && j < 25) {
 					if((i >= 150 && i < 165) || (i >= 170 && i < 185) || (i >= 190 && i < 205) ||
 							(i >= 210 && i < 225) || (i >= 230 && i < 245)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 25 && j < 30) {
 					if((i >= 150 && i < 155) || (i >= 170 && i < 175) || (i >= 190 && i < 195) ||
 							(i >= 200 && i < 205) || (i >= 210 && i < 215) ||(i >= 220 && i < 225) ||
 							(i >= 230 && i < 235)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 30 && j < 35) {
 					if((i >= 150 && i < 165) || (i >= 170 && i < 175) || (i >= 190 && i < 195) ||
 							(i >= 200 && i < 205) || (i >= 210 && i < 225) ||
 							(i >= 230 && i < 245)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 35 && j < 40) {
 					if((i >= 160 && i < 165) || (i >= 170 && i < 175) || (i >= 190 && i < 195) ||
 							(i >= 200 && i < 205) || (i >= 210 && i < 215) ||(i >= 215 && i < 220) ||
 							(i >= 230 && i < 235)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 40 && j < 45) {
 					if((i >= 150 && i < 165) || (i >= 170 && i < 185) || (i >= 190 && i < 205) ||
 							(i >= 210 && i < 215) || (i >= 220 && i < 225) || (i >= 230 && i < 245)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 
@@ -471,34 +509,34 @@ public class Tetris extends Task {
 					if((i >= 150 && i < 155) || (i >= 170 && i < 185) || (i >= 190 && i < 195) ||
 							(i >= 200 && i < 205) || (i >= 210 && i < 225) ||
 							(i >= 230 && i < 235)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 105 && j < 110) {
 					if((i >= 150 && i < 155) || (i >= 170 && i < 175) || (i >= 190 && i < 195) ||
 							(i >= 200 && i < 205) || (i >= 210 && i < 215) ||
 							(i >= 230 && i < 235)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 110 && j < 115) {
 					if((i >= 150 && i < 155) || (i >= 170 && i < 185) || (i >= 190 && i < 195) ||
 							(i >= 200 && i < 205) || (i >= 210 && i < 225) ||
 							(i >= 230 && i < 235)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 115 && j < 120) {
 					if((i >= 150 && i < 155) || (i >= 170 && i < 175) || (i >= 190 && i < 195) ||
 							(i >= 200 && i < 205) || (i >= 210 && i < 215) ||
 							(i >= 230 && i < 235)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 120 && j < 125) {
 					if((i >= 150 && i < 165) || (i >= 170 && i < 185) || (i >= 195 && i < 200) ||
 							(i >= 210 && i < 225) || (i >= 230 && i < 245)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 			}
@@ -528,7 +566,7 @@ public class Tetris extends Task {
 							(i >= 170 && i < 185) || (i >= 190 && i < 195) ||
 							(i >= 200 && i < 205) || (i >= 210 && i < 225) ||
 							(i >= 230 && i < 245)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 80 && j < 85) {
@@ -538,7 +576,7 @@ public class Tetris extends Task {
 							(i >= 190 && i < 195) || (i >= 200 && i < 205) ||
 							(i >= 210 && i < 215) || (i >= 230 && i < 235) ||
 							(i >= 240 && i < 245)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 85 && j < 90) {
@@ -547,7 +585,7 @@ public class Tetris extends Task {
 							(i >= 170 && i < 175) || (i >= 180 && i < 185) ||
 							(i >= 190 && i < 195) || (i >= 200 && i < 205) ||
 							(i >= 210 && i < 225) || (i >= 230 && i < 245)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 90 && j < 95) {
@@ -557,7 +595,7 @@ public class Tetris extends Task {
 							(i >= 170 && i < 175) || (i >= 180 && i < 185) ||
 							(i >= 190 && i < 195) || (i >= 200 && i < 205) ||
 							(i >= 210 && i < 215) || (i >= 230 && i < 240)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 				if(j >= 95 && j < 100) {
@@ -566,47 +604,10 @@ public class Tetris extends Task {
 							(i >= 130 && i < 145) || (i >= 170 && i < 185) ||
 							(i >= 195 && i < 200) || (i >= 210 && i < 225) ||
 							(i >= 230 && i < 235) || (i >= 240 && i < 245)) {
-						pixelCache[i][j] = (byte)0x72;
+						pixelCache[i][j] = (byte)0x28;
 					}
 				}
 			}
-		}
-	}
-
-	private static class Listener extends KeyboardListener {
-
-		private Tetris tetris;
-
-		public Listener(Tetris tetris) {
-			this.tetris = tetris;
-		}
-
-		@Override
-		public void onKeyDown(int value, int keyCode, boolean isChar, int flags) {
-			if (!isChar) {
-				switch (value) {
-					case Keyboard.DOWN:
-						if(this.tetris.stepDown()) {
-							this.tetris.score++;
-						}
-						break;
-					case Keyboard.LEFT:
-						this.tetris.stepLeft();
-						break;
-					case Keyboard.RIGHT:
-						this.tetris.stepRight();
-						break;
-					case Keyboard.UP:
-						this.tetris.rotate();
-						break;
-					default:
-						break;
-				}
-			}
-		}
-
-		@Override
-		public void onKeyUp(int value, int keyCode, boolean isChar, int flags) {
 		}
 	}
 }
